@@ -12,11 +12,12 @@ export const config = {
   },
   gutters: [8, 16, 24, 32],
   backgrounds: {
+    blue700: '#43308A',
+    blue500: '#2DD8E9',
     purple900: '#211834',
-    primaryBlue: '#2DD8E9',
-    primaryPurple: '#BC5DC8',
-    secondaryBlue: '#334680',
-    secondaryPurple: '#77386D',
+    purple700: '#503974',
+    purple500: '#BC5DC8',
+    pink800: '#7A396C',
   },
   borders: {
     widths: [1],
