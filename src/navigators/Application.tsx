@@ -1,30 +1,30 @@
 import React from 'react';
-import { SafeAreaView, StatusBar } from 'react-native';
+import { StatusBar } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import {
   NavigationContainer,
   useNavigationContainerRef,
 } from '@react-navigation/native';
 
-import { Example } from '@/screens';
-
 import { ApplicationStackParamList } from 'types/navigation';
 import useTheme from '@/theme/useTheme';
+import Login from '@/screens/Login';
 
 const Stack = createStackNavigator<ApplicationStackParamList>();
 
 const ApplicationNavigator = () => {
-  const { variant, layout, navigationTheme } = useTheme();
+  const { navigationTheme, backgrounds } = useTheme();
 
   const navigationRef = useNavigationContainerRef();
 
   return (
     <NavigationContainer theme={navigationTheme} ref={navigationRef}>
       <StatusBar
-        barStyle={variant === 'dark' ? 'light-content' : 'dark-content'}
+        barStyle={'light-content'}
+        backgroundColor={backgrounds.purple900.backgroundColor}
       />
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Home" component={Example} />
+        <Stack.Screen name="Home" component={Login} />
       </Stack.Navigator>
     </NavigationContainer>
   );

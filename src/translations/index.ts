@@ -1,7 +1,6 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
-import * as en from './en';
 import * as fr from './fr';
 
 type TupleUnion<U extends string, R extends any[] = []> = {
@@ -10,7 +9,7 @@ type TupleUnion<U extends string, R extends any[] = []> = {
     : TupleUnion<Exclude<U, S>, [...R, S]>;
 }[U];
 
-const ns = Object.keys(en) as TupleUnion<keyof typeof en>;
+const ns = Object.keys(fr) as TupleUnion<keyof typeof fr>;
 
 export const defaultNS = ns[0];
 
@@ -18,11 +17,10 @@ i18n.use(initReactI18next).init({
   ns,
   defaultNS,
   resources: {
-    en,
     fr,
   },
-  lng: 'en',
-  fallbackLng: 'en',
+  lng: 'fr',
+  fallbackLng: 'fr',
   interpolation: {
     escapeValue: false, // not needed for react as it escapes by default
   },

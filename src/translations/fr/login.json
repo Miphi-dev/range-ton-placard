@@ -1,0 +1,18 @@
+{
+  "pageTitle": "Tes courses attendent d'être rangées ?",
+  "pageSubtitle": "Alors connectes toi vite !",
+  "form": {
+    "login": {
+      "label": "E-mail",
+      "placeholder": "bidule@machin.truc"
+    },
+    "password": {
+      "label": "Mot de passe",
+      "placeholder": "Chuuuuuut"
+    },
+    "action": {
+      "label": "Me connecter"
+    },
+    "error": "Identifiant ou mot de passe invalide"
+  }
+}

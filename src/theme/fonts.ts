@@ -37,4 +37,13 @@ export const staticFontStyles = {
   capitalize: {
     textTransform: 'capitalize',
   },
+  nationalLight: {
+    fontFamily: 'National-Light',
+  },
+  nationalRegular: {
+    fontFamily: 'National-Regular',
+  },
+  nationalBold: {
+    fontFamily: 'National-Bold',
+  },
 } as const satisfies Record<string, TextStyle>;
