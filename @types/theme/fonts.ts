@@ -1,5 +1,5 @@
 import { config } from '@/theme/theme.config';
-import { fonts as fontsOverrides } from '@/theme/static';
+import { staticFontStyles } from '@/theme/fonts';
 
 import { ArrayValue, RemoveBeforeSeparator, ToNumber } from './common';
 import { UnionConfiguration } from './config';
@@ -22,4 +22,4 @@ export type FontColors = {
     : never;
 };
 
-export type Fonts = FontSizes & FontColors & typeof fontsOverrides;
+export type Fonts = FontSizes & FontColors & typeof staticFontStyles;
