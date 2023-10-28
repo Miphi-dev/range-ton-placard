@@ -12,6 +12,7 @@
     },
     "action": {
       "label": "Me connecter"
-    }
+    },
+    "error": "Identifiant ou mot de passe invalide"
   }
 }

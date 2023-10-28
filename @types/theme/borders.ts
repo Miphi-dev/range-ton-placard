@@ -1,6 +1,11 @@
 import { config } from '@/theme/theme.config';
 
-import { ArrayValue, RemoveBeforeSeparator, ToNumber } from './common';
+import {
+  ArrayValue,
+  RemoveAfterSeparator,
+  RemoveBeforeSeparator,
+  ToNumber,
+} from './common';
 import { UnionConfiguration } from './config';
 
 type BorderColorKeys =
@@ -22,11 +27,18 @@ export type BorderRadius = {
   };
 };
 
-type BorderWidthKeys = `border_${ArrayValue<typeof config.borders.widths>}`;
+type BorderWidthKeys =
+  | `border_${ArrayValue<typeof config.borders.widths>}`
+  | `borderBottom_${ArrayValue<typeof config.borders.widths>}`
+  | `borderTop_${ArrayValue<typeof config.borders.widths>}`
+  | `borderRight_${ArrayValue<typeof config.borders.widths>}`
+  | `borderLeft_${ArrayValue<typeof config.borders.widths>}`;
 
 export type BorderWidths = {
   [key in BorderWidthKeys]: {
-    borderWidth: ToNumber<RemoveBeforeSeparator<key>>;
+    [K in Extract<RemoveAfterSeparator<key>, BorderWidthKeys>]: ToNumber<
+      RemoveBeforeSeparator<key>
+    >;
   };
 };
 

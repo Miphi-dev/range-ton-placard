@@ -1,15 +1,45 @@
-import React from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import React, { useEffect } from 'react';
+import { Text, View } from 'react-native';
 import ScreenContainer from '@/components/templates/ScreenContainer';
 import useTheme from '@/theme/useTheme';
 import LinearGradient from 'react-native-linear-gradient';
 import { useTranslation } from 'react-i18next';
 import Input from '@/components/atoms/Input/Input';
 import Button from '@/components/atoms/Button/Button';
+import { useMutation } from '@tanstack/react-query';
+import authentication, {
+  LoginPayload,
+  loginPayloadSchema,
+} from '@/services/authentication';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import Message from '@/components/atoms/Message/Message';
 
 const Login = () => {
-  const { fonts, backgrounds, layout, gutters, borders } = useTheme();
+  const { fonts, backgrounds, layout, gutters } = useTheme();
   const { t } = useTranslation(['login']);
+
+  const {
+    control,
+    handleSubmit,
+    formState: { isValid },
+  } = useForm<LoginPayload>({
+    resolver: zodResolver(loginPayloadSchema),
+    mode: 'onChange',
+  });
+
+  const loginMutation = useMutation(authentication.login);
+
+  const onSubmit = (data: LoginPayload) => {
+    return loginMutation.mutate(data);
+  };
+
+  useEffect(() => {
+    if (loginMutation.isSuccess) {
+      console.log(loginMutation.data);
+    }
+  }, [loginMutation.isSuccess]);
+
   return (
     <ScreenContainer>
       <LinearGradient
@@ -83,15 +113,23 @@ const Login = () => {
           >
             {t('pageSubtitle')}
           </Text>
+          {loginMutation.isError ? (
+            <Message type="error" message={t('form.error')} />
+          ) : null}
         </View>
         <View style={{ height: '40%' }}>
           <Input
+            control={control}
+            name={'email'}
             placeholder={t('form.login.placeholder')}
             label={t('form.login.label')}
             keyboardType={'email-address'}
           />
+
           <Input
             style={[gutters.marginTop_24]}
+            control={control}
+            name={'password'}
             placeholder={t('form.password.placeholder')}
             label={t('form.password.label')}
             secureTextEntry
@@ -104,7 +142,12 @@ const Login = () => {
             layout.itemsCenter,
           ]}
         >
-          <Button label={t('form.action.label')} onPress={() => {}} />
+          <Button
+            disabled={!isValid}
+            isLoading={loginMutation.isLoading}
+            label={t('form.action.label')}
+            onPress={handleSubmit(onSubmit)}
+          />
         </View>
       </View>
     </ScreenContainer>
