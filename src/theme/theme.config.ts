@@ -1,4 +1,4 @@
-import { DarkTheme, DefaultTheme } from '@react-navigation/native';
+import { DefaultTheme } from '@react-navigation/native';
 
 import { ThemeConfiguration } from 'types/theme/config';
 
@@ -6,17 +6,17 @@ export const config = {
   fonts: {
     sizes: [16, 20, 40],
     colors: {
-      red_500: '#C13333',
-      gray_800: '#303030',
-      gray_400: '#4D4D4D',
-      gray_200: '#A1A1A1',
+      gray200: '#5C4E69',
+      white: '#FFF',
     },
   },
-  gutters: [10, 20, 30],
+  gutters: [8, 16, 24, 32],
   backgrounds: {
-    gray_200: '#DFDFDF',
-    purple_500: '#44427D',
-    purple_100: '#E1E1EF',
+    purple900: '#211834',
+    primaryBlue: '#2DD8E9',
+    primaryPurple: '#BC5DC8',
+    secondaryBlue: '#334680',
+    secondaryPurple: '#77386D',
   },
   borders: {
     widths: [1],
@@ -25,28 +25,10 @@ export const config = {
   },
   navigationColors: {
     ...DefaultTheme.colors,
-    background: '#EFEFEF',
-    card: '#EFEFEF',
+    background: '#211834',
+    card: '#211834',
   },
   variants: {
-    dark: {
-      fonts: {
-        colors: {
-          gray_800: '#E0E0E0',
-          gray_400: '#969696',
-          gray_200: '#BABABA',
-        },
-      },
-      backgrounds: {
-        gray_200: '#000000',
-        purple_500: '#A6A4F0',
-        purple_100: '#252732',
-      },
-      navigationColors: {
-        ...DarkTheme.colors,
-        background: '#1B1A23',
-        card: '#1B1A23',
-      },
-    },
+    dark: {},
   },
 } as const satisfies ThemeConfiguration;
