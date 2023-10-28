@@ -14,3 +14,4 @@ fastlane/test_output
 builds/*
 build/*
 *.xcarchive
+GoogleService-Info.plist
