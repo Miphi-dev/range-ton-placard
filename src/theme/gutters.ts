@@ -2,7 +2,7 @@ import { config } from '@/theme/theme.config';
 
 import { Gutters } from 'types/theme/gutters';
 
-export default (): Gutters => {
+export const generateGutters = (): Gutters => {
   return config.gutters.reduce((acc, curr) => {
     return Object.assign(acc, {
       [`margin_${curr}`]: {
