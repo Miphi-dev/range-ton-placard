@@ -4,7 +4,7 @@ import { config } from '@/theme/theme.config';
 import { BorderRadius } from 'types/theme/borders';
 
 export const generateBorderColors = (configuration: UnionConfiguration) => {
-  return Object.entries(configuration.borders ?? {}).reduce(
+  return Object.entries(configuration.borders.colors ?? {}).reduce(
     (acc, [key, value]) => {
       return Object.assign(acc, {
         [`border_${key}`]: {
