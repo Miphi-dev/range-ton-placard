@@ -5,13 +5,11 @@ import {
   NavigationContainer,
   useNavigationContainerRef,
 } from '@react-navigation/native';
-import { useFlipper } from '@react-navigation/devtools';
 
-import { Startup } from '@/screens';
-import { useTheme } from '@/hooks';
-import MainNavigator from './Main';
+import { Example } from '@/screens';
 
 import { ApplicationStackParamList } from 'types/navigation';
+import useTheme from '@/theme/useTheme';
 
 const Stack = createStackNavigator<ApplicationStackParamList>();
 
@@ -20,25 +18,15 @@ const ApplicationNavigator = () => {
 
   const navigationRef = useNavigationContainerRef();
 
-  useFlipper(navigationRef);
-
   return (
-    <SafeAreaView
-      style={[
-        layout.flex_1,
-        { backgroundColor: navigationTheme.colors.background },
-      ]}
-    >
-      <NavigationContainer theme={navigationTheme} ref={navigationRef}>
-        <StatusBar
-          barStyle={variant === 'dark' ? 'light-content' : 'dark-content'}
-        />
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Startup" component={Startup} />
-          <Stack.Screen name="Main" component={MainNavigator} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </SafeAreaView>
+    <NavigationContainer theme={navigationTheme} ref={navigationRef}>
+      <StatusBar
+        barStyle={variant === 'dark' ? 'light-content' : 'dark-content'}
+      />
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Home" component={Example} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 

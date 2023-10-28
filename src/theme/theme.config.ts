@@ -21,7 +21,9 @@ export const config = {
   borders: {
     widths: [1],
     radius: [140],
-    colors: {},
+    colors: {
+      primaryBlue: '#2DD8E9',
+    },
   },
   navigationColors: {
     ...DefaultTheme.colors,
