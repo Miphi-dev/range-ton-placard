@@ -1,13 +1,23 @@
 import React from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { ActivityIndicator, Text, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import useTheme from '@/theme/useTheme';
 
-type Props = { label: string; onPress: () => void };
-const Button = ({ label, onPress }: Props) => {
+type Props = {
+  label: string;
+  onPress: () => void;
+  isLoading?: boolean;
+  disabled?: boolean;
+};
+
+const Button = ({ label, onPress, isLoading, disabled }: Props) => {
   const { gutters, borders, backgrounds, fonts } = useTheme();
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity
+      onPress={onPress}
+      disabled={disabled}
+      style={[{ opacity: disabled ? 0.4 : 1 }]}
+    >
       <LinearGradient
         style={[
           gutters.paddingVertical_16,
@@ -22,19 +32,28 @@ const Button = ({ label, onPress }: Props) => {
           backgrounds.pink800.backgroundColor,
         ]}
       >
-        <Text
-          style={[
-            fonts.nationalBold,
-            fonts.uppercase,
-            fonts.text_white,
-            fonts.font_16,
-          ]}
-        >
-          {label}
-        </Text>
+        {isLoading ? (
+          <ActivityIndicator />
+        ) : (
+          <Text
+            style={[
+              fonts.nationalBold,
+              fonts.uppercase,
+              fonts.text_white,
+              fonts.font_16,
+            ]}
+          >
+            {label}
+          </Text>
+        )}
       </LinearGradient>
     </TouchableOpacity>
   );
+};
+
+Button.defaultProps = {
+  isLoading: false,
+  disabled: false,
 };
 
 export default Button;

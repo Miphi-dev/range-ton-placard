@@ -4,6 +4,7 @@ import { ThemeConfiguration } from 'types/theme/config';
 
 const colors = {
   gray200: '#5C4E69',
+  gray500: '#38323e',
   blue700: '#43308A',
   blue500: '#2DD8E9',
   purple900: '#211834',
@@ -11,7 +12,10 @@ const colors = {
   purple500: '#BC5DC8',
   pink800: '#7A396C',
   white: '#FFFFFF',
+  error: '#902D2D',
+  success: '#245d24',
 } as const;
+
 export const config = {
   fonts: {
     sizes: [8, 16, 24, 32, 40],
