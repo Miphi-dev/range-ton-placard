@@ -1,9 +1,9 @@
-import * as en from '@/translations/en';
+import * as fr from '@/translations/fr';
 import { defaultNS } from '@/translations';
 
 declare module 'i18next' {
   interface CustomTypeOptions {
     defaultNS: typeof defaultNS;
-    resources: typeof en;
+    resources: typeof fr;
   }
 }

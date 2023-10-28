@@ -14,6 +14,13 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-RangeTonPlacard-RangeTonPlacardTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-RangeTonPlacard-RangeTonPlacardTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		23BD312618D940D39FD87965 /* National-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8A1C33A30A414CEE9F99E7AF /* National-Black.otf */; };
+		3F8EA70430CD42E1A0DE5F61 /* National-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4A8595DEE6BB4D87B0BD7191 /* National-Bold.otf */; };
+		CA5BAD2ADA5147A89CFA595A /* National-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 46B18C9B8428434A92975054 /* National-Light.otf */; };
+		403B9F026A114024ADC5F8A2 /* National-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 244F5A1170DE484F816D6751 /* National-LightItalic.otf */; };
+		6D1D0F1FD79142F59C4CFBA1 /* National-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = E21B377C97644C3E9D681AF2 /* National-Regular.otf */; };
+		435870EA1E5C4B0FB8385BA4 /* National-RegularItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 245E523584B24BA795A2FEC1 /* National-RegularItalic.otf */; };
+		33480595D37D422ABDD4DAAD /* National-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 94D2EB46378942F986EFB788 /* National-Thin.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +51,13 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = RangeTonPlacard/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-RangeTonPlacard-RangeTonPlacardTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RangeTonPlacard-RangeTonPlacardTests.release.xcconfig"; path = "Target Support Files/Pods-RangeTonPlacard-RangeTonPlacardTests/Pods-RangeTonPlacard-RangeTonPlacardTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		8A1C33A30A414CEE9F99E7AF /* National-Black.otf */ = {isa = PBXFileReference; name = "National-Black.otf"; path = "../assets/fonts/National-Black.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		4A8595DEE6BB4D87B0BD7191 /* National-Bold.otf */ = {isa = PBXFileReference; name = "National-Bold.otf"; path = "../assets/fonts/National-Bold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		46B18C9B8428434A92975054 /* National-Light.otf */ = {isa = PBXFileReference; name = "National-Light.otf"; path = "../assets/fonts/National-Light.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		244F5A1170DE484F816D6751 /* National-LightItalic.otf */ = {isa = PBXFileReference; name = "National-LightItalic.otf"; path = "../assets/fonts/National-LightItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		E21B377C97644C3E9D681AF2 /* National-Regular.otf */ = {isa = PBXFileReference; name = "National-Regular.otf"; path = "../assets/fonts/National-Regular.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		245E523584B24BA795A2FEC1 /* National-RegularItalic.otf */ = {isa = PBXFileReference; name = "National-RegularItalic.otf"; path = "../assets/fonts/National-RegularItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		94D2EB46378942F986EFB788 /* National-Thin.otf */ = {isa = PBXFileReference; name = "National-Thin.otf"; path = "../assets/fonts/National-Thin.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +136,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				DA3D42007FD843F7A5A41030 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -147,6 +162,21 @@
 			);
 			path = Pods;
 			sourceTree = "<group>";
+		};
+		DA3D42007FD843F7A5A41030 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				8A1C33A30A414CEE9F99E7AF /* National-Black.otf */,
+				4A8595DEE6BB4D87B0BD7191 /* National-Bold.otf */,
+				46B18C9B8428434A92975054 /* National-Light.otf */,
+				244F5A1170DE484F816D6751 /* National-LightItalic.otf */,
+				E21B377C97644C3E9D681AF2 /* National-Regular.otf */,
+				245E523584B24BA795A2FEC1 /* National-RegularItalic.otf */,
+				94D2EB46378942F986EFB788 /* National-Thin.otf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -244,6 +274,13 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				23BD312618D940D39FD87965 /* National-Black.otf in Resources */,
+				3F8EA70430CD42E1A0DE5F61 /* National-Bold.otf in Resources */,
+				CA5BAD2ADA5147A89CFA595A /* National-Light.otf in Resources */,
+				403B9F026A114024ADC5F8A2 /* National-LightItalic.otf in Resources */,
+				6D1D0F1FD79142F59C4CFBA1 /* National-Regular.otf in Resources */,
+				435870EA1E5C4B0FB8385BA4 /* National-RegularItalic.otf in Resources */,
+				33480595D37D422ABDD4DAAD /* National-Thin.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

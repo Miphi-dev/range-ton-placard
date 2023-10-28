@@ -1,0 +1,33 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/National-Black.otf",
+      "sha1": "e86e9f5a048724486d58bc134ea0b6a853d09a3b"
+    },
+    {
+      "path": "assets/fonts/National-Bold.otf",
+      "sha1": "d7fcc3a23673104b1c4d6d8946d210dee759e28e"
+    },
+    {
+      "path": "assets/fonts/National-Light.otf",
+      "sha1": "71e9ce312bb35efd5f7d634a9767fd90859b1438"
+    },
+    {
+      "path": "assets/fonts/National-LightItalic.otf",
+      "sha1": "705b747835ac771fadbd7ec79f85ffd91077a4da"
+    },
+    {
+      "path": "assets/fonts/National-Regular.otf",
+      "sha1": "616d2d92b84db49b2d6eab699679af5f852dbd07"
+    },
+    {
+      "path": "assets/fonts/National-RegularItalic.otf",
+      "sha1": "a4e6f9ebcef7d0db47adb8321e969761c4ace1f7"
+    },
+    {
+      "path": "assets/fonts/National-Thin.otf",
+      "sha1": "bfc1d643888f9df3979ae6e3d3fc29b4fd35d47a"
+    }
+  ]
+}
