@@ -10,7 +10,7 @@ import { useMutation } from '@tanstack/react-query';
 import authentication, {
   LoginPayload,
   loginPayloadSchema,
-} from '@/services/authentication';
+} from '@/services/AuthenticationService';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Message from '@/components/atoms/Message/Message';
@@ -147,6 +147,7 @@ const Login = () => {
             isLoading={loginMutation.isLoading}
             label={t('form.action.label')}
             onPress={handleSubmit(onSubmit)}
+            style={gutters.paddingHorizontal_32}
           />
         </View>
       </View>

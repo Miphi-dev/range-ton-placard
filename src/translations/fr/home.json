@@ -1,0 +1,12 @@
+{
+  "pageTitle": "Bienvenu dans la cuisine !",
+  "logoutAlert": {
+    "title": "Tu quittes déjà la cuisine ?",
+    "description": "Vérifie bien d'avoir fini de ranger avant de nous quitter, le canapé peut attendre quelques minutes \uD83D\uDE09",
+    "actions": {
+      "ok": "Oui j'ai tout rangé !",
+      "cancel": "Bon alors je reste ..."
+    }
+  },
+  "spotList" : "Mes emplacements"
+}

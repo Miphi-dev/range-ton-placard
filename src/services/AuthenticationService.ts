@@ -11,6 +11,9 @@ export type LoginPayload = z.infer<typeof loginPayloadSchema>;
 const login = ({ email, password }: LoginPayload) =>
   auth().signInWithEmailAndPassword(email, password);
 
+const logout = () => auth().signOut();
+
 export default {
   login,
+  logout,
 };
