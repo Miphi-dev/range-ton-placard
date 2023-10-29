@@ -49,6 +49,7 @@ function Input<V extends FieldValues>({
             {...props}
             value={value}
             onChangeText={onChange}
+            selectionColor={backgrounds.white.backgroundColor}
             style={[
               fonts.nationalRegular,
               fonts.font_16,
