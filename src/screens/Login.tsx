@@ -1,19 +1,22 @@
 import React, { useEffect } from 'react';
 import { Text, View } from 'react-native';
-import ScreenContainer from '@/components/templates/ScreenContainer';
-import useTheme from '@/theme/useTheme';
+import { zodResolver } from '@hookform/resolvers/zod';
+// Components
 import LinearGradient from 'react-native-linear-gradient';
-import { useTranslation } from 'react-i18next';
+import ScreenContainer from '@/components/templates/ScreenContainer';
 import Input from '@/components/atoms/Input/Input';
 import Button from '@/components/atoms/Button/Button';
+import Message from '@/components/atoms/Message/Message';
+// Hooks
+import useTheme from '@/theme/useTheme';
+import { useTranslation } from 'react-i18next';
 import { useMutation } from '@tanstack/react-query';
+import { useForm } from 'react-hook-form';
+// Services
 import authentication, {
   LoginPayload,
   loginPayloadSchema,
 } from '@/services/AuthenticationService';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import Message from '@/components/atoms/Message/Message';
 
 const Login = () => {
   const { fonts, backgrounds, layout, gutters } = useTheme();
