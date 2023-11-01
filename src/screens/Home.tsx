@@ -5,71 +5,13 @@ import ScreenContainer from '@/components/templates/ScreenContainer';
 import Button from '@/components/atoms/Button/Button';
 import MenuItem from '@/components/atoms/MenuItem/MenuItem';
 // hooks
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import useTheme from '@/theme/useTheme';
 import { useTranslation } from 'react-i18next';
 // services
 import AuthenticationService from '@/services/AuthenticationService';
-
-const spots = [
-  {
-    name: 'Boite de réserve',
-    description:
-      "Les choses qu'on a déjà rangés ailleurs mais qu'on a acheté d'avance au cas ou",
-  },
-  {
-    name: 'Frigo',
-    description: 'Les choses qui pourrissent vite',
-  },
-  {
-    name: 'Boite apéro',
-    description: 'Les choses qui croustillent',
-  },
-  {
-    name: 'Boite patisserie',
-    description: 'Les choses qui se mettent dans les gateaux',
-  },
-  {
-    name: 'Boite patisserie',
-    description: 'Les choses qui se mettent dans les gateaux',
-  },
-  {
-    name: 'Boite patisserie',
-    description: 'Les choses qui se mettent dans les gateaux',
-  },
-  {
-    name: 'Boite patisserie',
-    description: 'Les choses qui se mettent dans les gateaux',
-  },
-  {
-    name: 'Boite patisserie',
-    description: 'Les choses qui se mettent dans les gateaux',
-  },
-  {
-    name: 'Boite patisserie',
-    description: 'Les choses qui se mettent dans les gateaux',
-  },
-  {
-    name: 'Boite patisserie',
-    description: 'Les choses qui se mettent dans les gateaux',
-  },
-  {
-    name: 'Boite patisserie',
-    description: 'Les choses qui se mettent dans les gateaux',
-  },
-  {
-    name: 'Boite patisserie',
-    description: 'Les choses qui se mettent dans les gateaux',
-  },
-  {
-    name: 'Boite patisserie',
-    description: 'Les choses qui se mettent dans les gateaux',
-  },
-  {
-    name: 'LAST',
-    description: 'Les choses qui se mettent dans les gateaux',
-  },
-];
+import SpotsService from '@/services/SpotsService';
+import SkeletonLoader from '@/components/atoms/SkeletonLoader/SkeletonLoader';
 
 const Home = () => {
   const { fonts, gutters, layout } = useTheme();
@@ -77,6 +19,17 @@ const Home = () => {
 
   // Queries
   const logoutMutation = useMutation(AuthenticationService.logout);
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['spots'],
+    queryFn: SpotsService.getSpots,
+    placeholderData: [
+      { id: '1', name: 'Spot 1', description: 'Description 1' },
+      { id: '2', name: 'Spot 2', description: 'Description 2' },
+      { id: '3', name: 'Spot 3', description: 'Description 3' },
+      { id: '4', name: 'Spot 4', description: 'Description 4' },
+    ],
+  });
 
   // methods
   const handleLogout = () =>
@@ -123,26 +76,28 @@ const Home = () => {
           />
         </View>
         {/*spots section*/}
-        <Text
-          style={[
-            fonts.text_white,
-            fonts.nationalLight,
-            fonts.font_24,
-            gutters.marginTop_32,
-            gutters.marginBottom_16,
-          ]}
-        >
-          {t('spotList')}
-        </Text>
-        <ScrollView>
-          <View style={gutters.marginBottom_32}>
-            {spots?.map(({ name, description }, index) => (
-              <View key={`spot-${index}`} style={gutters.marginVertical_8}>
-                <MenuItem title={name} subtitle={description} />
-              </View>
-            ))}
-          </View>
-        </ScrollView>
+        <SkeletonLoader isActive={isLoading}>
+          <Text
+            style={[
+              fonts.text_white,
+              fonts.nationalLight,
+              fonts.font_24,
+              gutters.marginTop_32,
+              gutters.marginBottom_16,
+            ]}
+          >
+            {t('spotList')}
+          </Text>
+          <ScrollView>
+            <View style={gutters.marginBottom_32}>
+              {data?.map(({ name, description }, index) => (
+                <View key={`spot-${index}`} style={gutters.marginVertical_8}>
+                  <MenuItem title={name} subtitle={description} />
+                </View>
+              ))}
+            </View>
+          </ScrollView>
+        </SkeletonLoader>
       </View>
     </ScreenContainer>
   );
