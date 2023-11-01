@@ -2,22 +2,23 @@ import React, { useEffect } from 'react';
 import { Alert, Text, View } from 'react-native';
 // Components
 import ScreenContainer from '@/components/templates/ScreenContainer';
-// Hooks
-import useTheme from '@/theme/useTheme';
-import { useTranslation } from 'react-i18next';
-import { ApplicationPrivateScreenProps } from 'types/navigation';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import SpotsService from '@/services/SpotsService';
 import SkeletonLoader from '@/components/atoms/SkeletonLoader/SkeletonLoader';
 import Button from '@/components/atoms/Button/Button';
 import Message from '@/components/atoms/Message/Message';
+// Hooks
+import useTheme from '@/theme/useTheme';
+import { useTranslation } from 'react-i18next';
+import { useMutation, useQuery } from '@tanstack/react-query';
+//Types
+import { ApplicationPrivateScreenProps } from 'types/navigation';
 // Services
+import SpotsService from '@/services/SpotsService';
 
 const SpotDetails = ({
   route,
   navigation,
 }: ApplicationPrivateScreenProps<'SpotDetails'>) => {
-  const { fonts, layout, gutters } = useTheme();
+  const { layout, gutters, fonts } = useTheme();
   const { t } = useTranslation(['spotDetails']);
 
   // queries
@@ -32,7 +33,11 @@ const SpotDetails = ({
 
   //methods
   const handleEditPress = () => {
-    navigation.navigate('SpotForm');
+    if (data) {
+      navigation.navigate('SpotForm', {
+        data: { ...data, id: route.params.id },
+      });
+    }
   };
   const handleDeletePress = () => {
     Alert.alert(t('deleteModal.title'), t('deleteModal.description'), [
@@ -51,7 +56,6 @@ const SpotDetails = ({
   //effects
   useEffect(() => {
     navigation.setOptions({
-      headerTitle: data ? data.name : t('errors.notfound'),
       headerRight: () => (
         <View style={[layout.row, gutters.marginRight_8]}>
           <View style={[gutters.marginRight_8]}>
@@ -84,9 +88,22 @@ const SpotDetails = ({
   return (
     <ScreenContainer>
       <SkeletonLoader isActive={isLoading}>
-        {deleteMutation?.isError ? (
-          <Message type="error" message={t('errors.delete')} />
-        ) : null}
+        <View style={[gutters.paddingHorizontal_16]}>
+          {deleteMutation?.isError ? (
+            <Message type="error" message={t('errors.delete')} />
+          ) : null}
+          <Text
+            style={[
+              fonts.nationalBold,
+              fonts.text_white,
+              fonts.font_32,
+              gutters.marginTop_16,
+              fonts.alignCenter,
+            ]}
+          >
+            {data ? data.name : t('errors.notfound')}
+          </Text>
+        </View>
       </SkeletonLoader>
     </ScreenContainer>
   );

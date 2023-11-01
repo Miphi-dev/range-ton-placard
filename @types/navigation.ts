@@ -1,4 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack';
+import { Spot } from '@/services/SpotsService';
 
 export type ApplicationPublicStackParamList = {
   Login: undefined;
@@ -6,7 +7,7 @@ export type ApplicationPublicStackParamList = {
 
 export type ApplicationPrivateStackParamList = {
   Home: undefined;
-  SpotForm: undefined;
+  SpotForm: undefined | { data?: Spot };
   SpotDetails: { id: string };
 };
 
