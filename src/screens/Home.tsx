@@ -1,9 +1,18 @@
-import React from 'react';
-import { Alert, ScrollView, Text, View } from 'react-native';
+import React, { useCallback } from 'react';
+import {
+  Alert,
+  RefreshControl,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import { ApplicationPrivateScreenProps } from 'types/navigation';
 // components
 import ScreenContainer from '@/components/templates/ScreenContainer';
 import Button from '@/components/atoms/Button/Button';
 import MenuItem from '@/components/atoms/MenuItem/MenuItem';
+import SkeletonLoader from '@/components/atoms/SkeletonLoader/SkeletonLoader';
 // hooks
 import { useMutation, useQuery } from '@tanstack/react-query';
 import useTheme from '@/theme/useTheme';
@@ -11,16 +20,16 @@ import { useTranslation } from 'react-i18next';
 // services
 import AuthenticationService from '@/services/AuthenticationService';
 import SpotsService from '@/services/SpotsService';
-import SkeletonLoader from '@/components/atoms/SkeletonLoader/SkeletonLoader';
+import { useFocusEffect } from '@react-navigation/native';
 
-const Home = () => {
+const Home = ({ navigation }: ApplicationPrivateScreenProps<'Home'>) => {
   const { fonts, gutters, layout } = useTheme();
   const { t } = useTranslation(['home']);
 
   // Queries
   const logoutMutation = useMutation(AuthenticationService.logout);
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ['spots'],
     queryFn: SpotsService.getSpots,
     placeholderData: [
@@ -45,6 +54,19 @@ const Home = () => {
         style: 'cancel',
       },
     ]);
+
+  const handleAddSpot = () => navigation.navigate('SpotForm');
+  const handleRefresh = () => refetch();
+
+  const handleSpotPress = (id: string) =>
+    navigation.navigate('SpotDetails', { id });
+
+  // effects
+  useFocusEffect(
+    useCallback(() => {
+      refetch();
+    }, []),
+  );
 
   return (
     <ScreenContainer>
@@ -77,22 +99,46 @@ const Home = () => {
         </View>
         {/*spots section*/}
         <SkeletonLoader isActive={isLoading}>
-          <Text
+          <View
             style={[
-              fonts.text_white,
-              fonts.nationalLight,
-              fonts.font_24,
+              layout.row,
+              layout.itemsCenter,
               gutters.marginTop_32,
               gutters.marginBottom_16,
             ]}
           >
-            {t('spotList')}
-          </Text>
-          <ScrollView>
+            <Text
+              style={[fonts.text_white, fonts.nationalLight, fonts.font_24]}
+            >
+              {t('spotList')}
+            </Text>
+            <TouchableOpacity
+              onPress={handleAddSpot}
+              style={[gutters.marginLeft_16, { marginTop: -5 }]}
+            >
+              <Text
+                style={[fonts.nationalLight, fonts.text_white, fonts.font_40]}
+              >
+                +
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <ScrollView
+            refreshControl={
+              <RefreshControl
+                refreshing={isLoading}
+                onRefresh={handleRefresh}
+              />
+            }
+          >
             <View style={gutters.marginBottom_32}>
-              {data?.map(({ name, description }, index) => (
+              {data?.map(({ name, description, id }, index) => (
                 <View key={`spot-${index}`} style={gutters.marginVertical_8}>
-                  <MenuItem title={name} subtitle={description} />
+                  <MenuItem
+                    onPress={() => handleSpotPress(id)}
+                    title={name}
+                    subtitle={description}
+                  />
                 </View>
               ))}
             </View>

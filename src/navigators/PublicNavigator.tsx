@@ -1,15 +1,15 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { ApplicationStackParamList } from 'types/navigation';
+import { ApplicationPublicStackParamList } from 'types/navigation';
 import Login from '@/screens/Login';
 
-const Stack = createStackNavigator<ApplicationStackParamList>();
+const Stack = createStackNavigator<ApplicationPublicStackParamList>();
 
 const MainNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Home" component={Login} />
+      <Stack.Screen name="Login" component={Login} />
     </Stack.Navigator>
   );
 };
