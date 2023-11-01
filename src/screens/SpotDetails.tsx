@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Alert,
   RefreshControl,
@@ -13,16 +13,18 @@ import SkeletonLoader from '@/components/atoms/SkeletonLoader/SkeletonLoader';
 import Button from '@/components/atoms/Button/Button';
 import Message from '@/components/atoms/Message/Message';
 import MenuItem from '@/components/atoms/MenuItem/MenuItem';
+import ScannerModal from '@/components/organisms/ScannerModal/ScannerModal';
+import SearchSupplies from '@/components/molecules/SearchSupplies/SearchSupplies';
 // Hooks
 import useTheme from '@/theme/useTheme';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { useFocusEffect } from '@react-navigation/native';
 //Types
 import { ApplicationPrivateScreenProps } from 'types/navigation';
+import { Supply } from '@/services/schemas/supplies';
 // Services
 import SpotsService from '@/services/SpotsService';
-import { useFocusEffect } from '@react-navigation/native';
-import ScannerModal from '@/components/organisms/ScannerModal/ScannerModal';
 import SuppliesService from '@/services/SuppliesService';
 
 const SpotDetails = ({
@@ -35,6 +37,8 @@ const SpotDetails = ({
   //hooks
   const { layout, gutters, fonts, backgrounds } = useTheme();
   const { t } = useTranslation(['spotDetails']);
+
+  const [searchSupplies, setSearchSupplies] = useState<Supply[]>();
 
   // queries
   const { isFetching, data, refetch } = useQuery(
@@ -50,20 +54,26 @@ const SpotDetails = ({
             id: '1',
             name: 'court',
             marque: '',
+            keywords: [],
+            spotId: route.params.id ?? '',
           },
           {
             id: '2',
             name: 'produit moyen',
             marque: '',
+            keywords: [],
+            spotId: route.params.id ?? '',
           },
           {
             id: '3',
             name: 'produit très long',
             marque: '',
+            keywords: [],
+            spotId: route.params.id ?? '',
           },
         ],
       },
-    }
+    },
   );
 
   const deleteMutation = useMutation(SpotsService.deleteSpot);
@@ -79,6 +89,7 @@ const SpotDetails = ({
           name: data.name || '',
           description: data.description || '',
           id: route.params.id,
+          keywords: data.keywords || [],
         },
       });
     }
@@ -118,13 +129,22 @@ const SpotDetails = ({
       spotId: route.params.id,
     });
 
-  const openaddSupplyModal = () => setaddSupplyModal(true);
+  const openAddSupplyModal = () => setaddSupplyModal(true);
+
+  //memo
+  const supplies = useMemo(() => {
+    console.log(searchSupplies);
+    if (searchSupplies) {
+      return searchSupplies;
+    }
+    return data?.supplies;
+  }, [data, searchSupplies]);
 
   //effects
   useFocusEffect(
     useCallback(() => {
       refetch();
-    }, [])
+    }, []),
   );
 
   useEffect(() => {
@@ -208,6 +228,12 @@ const SpotDetails = ({
               {data?.description}
             </Text>
           </View>
+
+          <SearchSupplies
+            spotId={route.params.id}
+            setValue={setSearchSupplies}
+          />
+
           <ScrollView
             style={[gutters.marginTop_16]}
             refreshControl={
@@ -218,10 +244,9 @@ const SpotDetails = ({
             }
           >
             <View style={[layout.row, layout.wrap, { marginBottom: 110 }]}>
-              {data?.supplies?.map(({ name, marque, id }) => (
-                <View style={[gutters.margin_8]}>
+              {supplies?.map(({ name, marque, id }) => (
+                <View key={`spot-${id}`} style={[gutters.margin_8]}>
                   <MenuItem
-                    key={`spot-${id}`}
                     title={name}
                     subtitle={marque}
                     onLongPress={() => handleDeleteSupply(id)}
@@ -247,7 +272,7 @@ const SpotDetails = ({
                 borderRadius: 80,
               },
             ]}
-            onPress={openaddSupplyModal}
+            onPress={openAddSupplyModal}
           >
             <Text
               style={[
