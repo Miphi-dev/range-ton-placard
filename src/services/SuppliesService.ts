@@ -23,6 +23,24 @@ const createSupplyInSpot = async (payload: {
   }
 };
 
+const deleteSupplyInSpot = async (payload: {
+  spotId: string;
+  supplyId: string;
+}) => {
+  try {
+    await firestore().collection('supplies').doc(payload.supplyId).delete();
+    const response = await firestore()
+      .collection('spots')
+      .doc(payload.spotId)
+      .update({
+        supplies: firestore.FieldValue.arrayRemove(payload.supplyId),
+      });
+    return Promise.resolve(response);
+  } catch (e) {
+    return Promise.reject(e);
+  }
+};
+
 const getSupplyFromBarCode = async (barCode: string) => {
   const response = await fetch(
     `https://world.openfoodfacts.org/api/v2/product/${barCode}.json`
@@ -38,4 +56,5 @@ const getSupplyFromBarCode = async (barCode: string) => {
 export default {
   createSupplyInSpot,
   getSupplyFromBarCode,
+  deleteSupplyInSpot,
 };
