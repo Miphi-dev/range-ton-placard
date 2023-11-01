@@ -1,7 +1,5 @@
 import { z } from 'zod';
-import firestore, {
-  FirebaseFirestoreTypes,
-} from '@react-native-firebase/firestore';
+import firestore from '@react-native-firebase/firestore';
 
 export const spotSchema = z.object({
   id: z.string(),
@@ -11,21 +9,18 @@ export const spotSchema = z.object({
 });
 
 export type Spot = z.infer<typeof spotSchema>;
+type SpotDoc = Omit<Spot, 'id'>;
 
 export const spotPayloadSchema = spotSchema.omit({ id: true });
 export type SpotPayload = z.infer<typeof spotPayloadSchema>;
 
-// type SpotDoc = Omit<Spot, 'supplies'> & {
-//   supplies: FirebaseFirestoreTypes.DocumentReference<SupplyDoc>[];
-// };
-
 const getSpots = async () => {
   try {
-    const spotSnapshots = await firestore().collection<Spot>('spots').get();
+    const spotSnapshots = await firestore().collection<SpotDoc>('spots').get();
     const spots: Spot[] = [];
 
-    spotSnapshots.forEach((spotRef) => {
-      spots.push(spotRef.data());
+    spotSnapshots.forEach(spotRef => {
+      spots.push({ ...spotRef.data(), id: spotRef.id });
     });
 
     return Promise.resolve(spots.sort((a, b) => a.name.localeCompare(b.name)));
