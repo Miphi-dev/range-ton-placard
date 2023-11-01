@@ -33,10 +33,10 @@ const Home = ({ navigation }: ApplicationPrivateScreenProps<'Home'>) => {
     queryKey: ['spots'],
     queryFn: SpotsService.getSpots,
     placeholderData: [
-      { id: '1', name: 'Spot 1', description: 'Description 1' },
-      { id: '2', name: 'Spot 2', description: 'Description 2' },
-      { id: '3', name: 'Spot 3', description: 'Description 3' },
-      { id: '4', name: 'Spot 4', description: 'Description 4' },
+      { id: '1', name: 'Spot 1', description: 'Description 1', keywords: [] },
+      { id: '2', name: 'Spot 2', description: 'Description 2', keywords: [] },
+      { id: '3', name: 'Spot 3', description: 'Description 3', keywords: [] },
+      { id: '4', name: 'Spot 4', description: 'Description 4', keywords: [] },
     ],
   });
 
@@ -65,7 +65,7 @@ const Home = ({ navigation }: ApplicationPrivateScreenProps<'Home'>) => {
   useFocusEffect(
     useCallback(() => {
       refetch();
-    }, [])
+    }, []),
   );
 
   return (

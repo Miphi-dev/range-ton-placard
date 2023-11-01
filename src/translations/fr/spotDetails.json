@@ -14,5 +14,9 @@
   "errors": {
     "notfound": "Emplacement introuvable",
     "delete": "Une erreur est survenue lors de la suppression de l'emplacement."
+  },
+  "searchSupplies": {
+    "label": "Rechercher un produit",
+    "placeholder": "C'est le moment de te souvenir ce que tu cherchais..."
   }
 }
