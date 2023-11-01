@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Alert, Text, View } from 'react-native';
+import { Alert, RefreshControl, ScrollView, Text, View } from 'react-native';
 // Components
 import ScreenContainer from '@/components/templates/ScreenContainer';
 // Hooks
@@ -22,25 +22,23 @@ const SpotDetails = ({
   const { t } = useTranslation(['spotDetails']);
 
   // queries
-  const { isLoading, data } = useQuery(
+  const { isLoading, data, refetch } = useQuery(
     ['getOneSpot', route.params.id],
     () => SpotsService.getSpot(route.params.id),
     {
       enabled: !!route.params.id,
     },
   );
+
   const deleteMutation = useMutation(SpotsService.deleteSpot);
 
+  //methods
   const handleRefresh = () => refetch();
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
-  //methods
   const handleEditPress = () => {
     navigation.navigate('SpotForm');
   };
+
   const handleDeletePress = () => {
     Alert.alert(t('deleteModal.title'), t('deleteModal.description'), [
       {
@@ -90,12 +88,10 @@ const SpotDetails = ({
 
   return (
     <ScreenContainer>
-      <SkeletonLoader isActive={isLoading}>
+      <View style={[gutters.paddingHorizontal_16, layout.flex_1]}>
         {deleteMutation?.isError ? (
           <Message type="error" message={t('errors.delete')} />
         ) : null}
-      </SkeletonLoader>
-      <View style={[gutters.paddingHorizontal_16, layout.flex_1]}>
         <SkeletonLoader isActive={isLoading}>
           <View
             style={[
