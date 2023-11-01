@@ -19,6 +19,7 @@ type Props<V extends FieldValues> = Omit<
   style?: StyleProp<ViewStyle>;
   control: Control<V>;
   name: Path<V>;
+  onChangeText?: (value: string) => void;
 };
 
 function Input<V extends FieldValues>({
@@ -26,9 +27,19 @@ function Input<V extends FieldValues>({
   style,
   control,
   name,
+  onChangeText,
   ...props
 }: Props<V>) {
   const { borders, backgrounds, gutters, fonts } = useTheme();
+
+  const customOnChange = (
+    value: string,
+    callback: (value: string) => unknown,
+  ) => {
+    onChangeText?.(value);
+    callback(value);
+  };
+
   return (
     <View style={style}>
       <Text
@@ -44,11 +55,15 @@ function Input<V extends FieldValues>({
       </Text>
       <Controller
         control={control}
-        render={({ field: { value, onChange } }) => (
+        render={({ field: { value, onChange: controllerOnChange } }) => (
           <TextInput
             {...props}
             value={value}
-            onChangeText={onChange}
+            onChangeText={
+              onChangeText
+                ? v => customOnChange(v, controllerOnChange)
+                : controllerOnChange
+            }
             selectionColor={backgrounds.white.backgroundColor}
             textAlignVertical={props.multiline ? 'top' : 'center'}
             style={[
@@ -72,6 +87,7 @@ function Input<V extends FieldValues>({
 
 Input.defaultProps = {
   style: [],
+  onChangeText: undefined,
 };
 
 export default Input;
