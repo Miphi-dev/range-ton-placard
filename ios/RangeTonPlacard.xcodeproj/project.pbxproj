@@ -45,19 +45,19 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = RangeTonPlacard/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = RangeTonPlacard/main.m; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-RangeTonPlacard-RangeTonPlacardTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RangeTonPlacard-RangeTonPlacardTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		244F5A1170DE484F816D6751 /* National-LightItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "National-LightItalic.otf"; path = "../assets/fonts/National-LightItalic.otf"; sourceTree = "<group>"; };
-		245E523584B24BA795A2FEC1 /* National-RegularItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "National-RegularItalic.otf"; path = "../assets/fonts/National-RegularItalic.otf"; sourceTree = "<group>"; };
+		244F5A1170DE484F816D6751 /* National-LightItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "National-LightItalic.otf"; path = "../assets/fonts/National-LightItalic.otf"; sourceTree = "<group>"; };
+		245E523584B24BA795A2FEC1 /* National-RegularItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "National-RegularItalic.otf"; path = "../assets/fonts/National-RegularItalic.otf"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-RangeTonPlacard.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RangeTonPlacard.debug.xcconfig"; path = "Target Support Files/Pods-RangeTonPlacard/Pods-RangeTonPlacard.debug.xcconfig"; sourceTree = "<group>"; };
-		46B18C9B8428434A92975054 /* National-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "National-Light.otf"; path = "../assets/fonts/National-Light.otf"; sourceTree = "<group>"; };
-		4A8595DEE6BB4D87B0BD7191 /* National-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "National-Bold.otf"; path = "../assets/fonts/National-Bold.otf"; sourceTree = "<group>"; };
+		46B18C9B8428434A92975054 /* National-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "National-Light.otf"; path = "../assets/fonts/National-Light.otf"; sourceTree = "<group>"; };
+		4A8595DEE6BB4D87B0BD7191 /* National-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "National-Bold.otf"; path = "../assets/fonts/National-Bold.otf"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-RangeTonPlacard.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RangeTonPlacard.release.xcconfig"; path = "Target Support Files/Pods-RangeTonPlacard/Pods-RangeTonPlacard.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-RangeTonPlacard-RangeTonPlacardTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RangeTonPlacard-RangeTonPlacardTests.debug.xcconfig"; path = "Target Support Files/Pods-RangeTonPlacard-RangeTonPlacardTests/Pods-RangeTonPlacard-RangeTonPlacardTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-RangeTonPlacard.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RangeTonPlacard.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = RangeTonPlacard/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-RangeTonPlacard-RangeTonPlacardTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RangeTonPlacard-RangeTonPlacardTests.release.xcconfig"; path = "Target Support Files/Pods-RangeTonPlacard-RangeTonPlacardTests/Pods-RangeTonPlacard-RangeTonPlacardTests.release.xcconfig"; sourceTree = "<group>"; };
-		8A1C33A30A414CEE9F99E7AF /* National-Black.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "National-Black.otf"; path = "../assets/fonts/National-Black.otf"; sourceTree = "<group>"; };
-		94D2EB46378942F986EFB788 /* National-Thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "National-Thin.otf"; path = "../assets/fonts/National-Thin.otf"; sourceTree = "<group>"; };
-		E21B377C97644C3E9D681AF2 /* National-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "National-Regular.otf"; path = "../assets/fonts/National-Regular.otf"; sourceTree = "<group>"; };
+		8A1C33A30A414CEE9F99E7AF /* National-Black.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "National-Black.otf"; path = "../assets/fonts/National-Black.otf"; sourceTree = "<group>"; };
+		94D2EB46378942F986EFB788 /* National-Thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "National-Thin.otf"; path = "../assets/fonts/National-Thin.otf"; sourceTree = "<group>"; };
+		E21B377C97644C3E9D681AF2 /* National-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "National-Regular.otf"; path = "../assets/fonts/National-Regular.otf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F567910F2AED630E007EC51C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -178,7 +178,6 @@
 				94D2EB46378942F986EFB788 /* National-Thin.otf */,
 			);
 			name = Resources;
-			path = "";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -657,10 +656,7 @@
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 			};
@@ -730,10 +726,7 @@
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
