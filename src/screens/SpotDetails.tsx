@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Text, View } from 'react-native';
+import { RefreshControl, ScrollView, Text, View } from 'react-native';
 // Components
 import ScreenContainer from '@/components/templates/ScreenContainer';
 // Hooks
@@ -10,6 +10,7 @@ import { useQuery } from '@tanstack/react-query';
 import SpotsService from '@/services/SpotsService';
 import SkeletonLoader from '@/components/atoms/SkeletonLoader/SkeletonLoader';
 import Button from '@/components/atoms/Button/Button';
+import MenuItem from '@/components/atoms/MenuItem/MenuItem';
 // Services
 
 const SpotDetails = ({
@@ -19,14 +20,19 @@ const SpotDetails = ({
   const { fonts, layout, gutters } = useTheme();
   const { t } = useTranslation(['spotDetails']);
 
-  console.log('PARAMS', route.params.id);
-  const { isLoading, data } = useQuery(
+  const { isLoading, data, refetch } = useQuery(
     ['getOneSpot', route.params.id],
     () => SpotsService.getSpot(route.params.id),
     {
       enabled: !!route.params.id,
-    }
+    },
   );
+
+  const handleRefresh = () => refetch();
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   useEffect(() => {
     navigation.setOptions({
@@ -54,7 +60,40 @@ const SpotDetails = ({
 
   return (
     <ScreenContainer>
-      <SkeletonLoader isActive={isLoading} />
+      <View style={[gutters.paddingHorizontal_16, layout.flex_1]}>
+        <SkeletonLoader isActive={isLoading}>
+          <View
+            style={[
+              layout.row,
+              layout.itemsCenter,
+              gutters.marginTop_32,
+              gutters.marginBottom_16,
+            ]}
+          >
+            <Text
+              style={[fonts.text_white, fonts.nationalLight, fonts.font_24]}
+            >
+              {data?.description}
+            </Text>
+          </View>
+          <ScrollView
+            refreshControl={
+              <RefreshControl
+                refreshing={isLoading}
+                onRefresh={handleRefresh}
+              />
+            }
+          >
+            <View style={gutters.marginBottom_32}>
+              {data?.supplies?.map(({ name, marque, id }) => (
+                <View key={`supply-${id}`} style={gutters.marginVertical_8}>
+                  <MenuItem title={name} subtitle={marque} />
+                </View>
+              ))}
+            </View>
+          </ScrollView>
+        </SkeletonLoader>
+      </View>
     </ScreenContainer>
   );
 };
