@@ -52,9 +52,12 @@ const createSpot = async (data: SpotPayload) => {
   }
 };
 
-const updateSpot = async (id: string, data: Partial<SpotPayload>) => {
+const updateSpot = async (payload: {
+  id: string;
+  data: Partial<SpotPayload>;
+}) => {
   try {
-    const response = await firestore().collection('spots').doc(id).update(data);
+    const response = await firestore().collection('spots').doc(payload.id).update(payload.data);
     return Promise.resolve(response);
   } catch (e) {
     return Promise.reject(e);

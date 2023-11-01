@@ -13,7 +13,7 @@ export const generateFontColors = (configuration: UnionConfiguration) => {
         },
       });
     },
-    {} as FontColors,
+    {} as FontColors
   );
 };
 
@@ -45,5 +45,8 @@ export const staticFontStyles = {
   },
   nationalBold: {
     fontFamily: 'National-Bold',
+  },
+  alignCenter: {
+    textAlign: 'center',
   },
 } as const satisfies Record<string, TextStyle>;

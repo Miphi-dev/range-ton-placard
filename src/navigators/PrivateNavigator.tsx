@@ -39,7 +39,11 @@ const MainNavigator = () => {
         options={{ headerShown: false }}
       />
       <Stack.Screen name="SpotForm" component={SpotForm} />
-      <Stack.Screen name="SpotDetails" component={SpotDetails} />
+      <Stack.Screen
+        name="SpotDetails"
+        component={SpotDetails}
+        options={{ headerTitle: '' }}
+      />
     </Stack.Navigator>
   );
 };
