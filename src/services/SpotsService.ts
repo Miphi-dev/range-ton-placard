@@ -28,7 +28,7 @@ const getSpots = async () => {
       spots.push(spotRef.data());
     });
 
-    return Promise.resolve(spots);
+    return Promise.resolve(spots.sort((a, b) => a.name.localeCompare(b.name)));
   } catch (e) {
     return Promise.reject(e);
   }

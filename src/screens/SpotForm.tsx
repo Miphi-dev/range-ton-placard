@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import { zodResolver } from '@hookform/resolvers/zod';
 // Components
 import LinearGradient from 'react-native-linear-gradient';
@@ -22,8 +22,8 @@ import { ApplicationPrivateScreenProps } from 'types/navigation';
 const SpotForm = ({
   navigation,
 }: ApplicationPrivateScreenProps<'SpotForm'>) => {
-  const { fonts, backgrounds, layout, gutters } = useTheme();
-  const { t } = useTranslation(['spotForm']);
+  const { backgrounds, layout, gutters } = useTheme();
+  const { t } = useTranslation(['spotForm', 'navigation']);
 
   const {
     control,
@@ -45,6 +45,12 @@ const SpotForm = ({
       navigation.navigate('Home');
     }
   }, [createSpotMutation.isSuccess]);
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerTitle: t('navigation:spotFormCreate'),
+    });
+  }, [navigation]);
 
   return (
     <ScreenContainer>
@@ -85,36 +91,20 @@ const SpotForm = ({
           },
         ]}
       />
-
       <View
         style={[
-          layout.justifyBetween,
           layout.flex_1,
           gutters.paddingHorizontal_16,
+          gutters.paddingBottom_40,
+          layout.justifyBetween,
         ]}
       >
-        <View style={[gutters.paddingTop_24]}>
-          <Text
-            style={[fonts.font_32, gutters.marginBottom_16, fonts.nationalBold]}
-          >
-            🛒
-          </Text>
-          <Text
-            style={[
-              fonts.text_white,
-              fonts.font_32,
-              gutters.marginBottom_16,
-              fonts.nationalBold,
-            ]}
-          >
-            {t('pageTitleNew')}
-          </Text>
-
-          {createSpotMutation.isError ? (
-            <Message type="error" message={t('form.error.create')} />
-          ) : null}
-        </View>
         <View style={{ height: '40%' }}>
+          <View style={[gutters.paddingTop_24]}>
+            {createSpotMutation.isError ? (
+              <Message type="error" message={t('form.error.create')} />
+            ) : null}
+          </View>
           <Input
             control={control}
             name={'name'}
@@ -131,19 +121,12 @@ const SpotForm = ({
             multiline
           />
         </View>
-        <View
-          style={[
-            gutters.marginBottom_40,
-            layout.fullWidth,
-            layout.itemsCenter,
-          ]}
-        >
+        <View>
           <Button
             disabled={!isValid}
-            isLoading={createSpotMutation.isLoading}
-            label={t('form.action.new.label')}
             onPress={handleSubmit(onSubmit)}
-            style={gutters.paddingHorizontal_32}
+            label={t('form.action.new.label')}
+            type={'outline'}
           />
         </View>
       </View>

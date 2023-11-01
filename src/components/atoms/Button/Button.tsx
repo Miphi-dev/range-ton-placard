@@ -27,7 +27,7 @@ const Button = ({
   type,
   style,
 }: Props) => {
-  const { gutters, borders, backgrounds, fonts } = useTheme();
+  const { gutters, borders, backgrounds, fonts, layout } = useTheme();
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -52,13 +52,14 @@ const Button = ({
           style={
             type === 'outline'
               ? [
-                  style,
                   gutters.paddingVertical_16,
+                  layout.itemsCenter,
+                  style,
                   borders.rounded_16,
                   backgrounds.purple900,
                   { margin: 2 },
                 ]
-              : []
+              : [layout.itemsCenter]
           }
         >
           {isLoading ? (

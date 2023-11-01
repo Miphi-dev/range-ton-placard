@@ -7,6 +7,7 @@ export type ApplicationPublicStackParamList = {
 export type ApplicationPrivateStackParamList = {
   Home: undefined;
   SpotForm: undefined;
+  SpotDetails: { id: string };
 };
 
 export type ApplicationPublicScreenProps<
