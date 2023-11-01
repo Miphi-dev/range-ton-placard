@@ -11,6 +11,14 @@
       "cancel": "Annuler"
     }
   },
+  "deleteSupply": {
+    "title": "\uD83D\uDE31 Es-tu sûr(e) de vouloir supprimer ce produit ?",
+    "description": "Attention si tu valides il faut que tu sois bien sûr(e) d'avoir fini la boite, ou que c'est vraiment bien pourri, car il ne reviendra pas ...",
+    "actions": {
+      "ok": "Valider",
+      "cancel": "Annuler"
+    }
+  },
   "errors": {
     "notfound": "Emplacement introuvable",
     "delete": "Une erreur est survenue lors de la suppression de l'emplacement."

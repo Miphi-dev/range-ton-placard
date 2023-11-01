@@ -29,7 +29,7 @@ const Home = ({ navigation }: ApplicationPrivateScreenProps<'Home'>) => {
   // Queries
   const logoutMutation = useMutation(AuthenticationService.logout);
 
-  const { data, isLoading, refetch } = useQuery({
+  const { data, isFetching, refetch } = useQuery({
     queryKey: ['spots'],
     queryFn: SpotsService.getSpots,
     placeholderData: [
@@ -98,7 +98,7 @@ const Home = ({ navigation }: ApplicationPrivateScreenProps<'Home'>) => {
           />
         </View>
         {/*spots section*/}
-        <SkeletonLoader isActive={isLoading}>
+        <SkeletonLoader isActive={isFetching}>
           <View
             style={[
               layout.row,
@@ -126,7 +126,7 @@ const Home = ({ navigation }: ApplicationPrivateScreenProps<'Home'>) => {
           <ScrollView
             refreshControl={
               <RefreshControl
-                refreshing={isLoading}
+                refreshing={isFetching}
                 onRefresh={handleRefresh}
               />
             }

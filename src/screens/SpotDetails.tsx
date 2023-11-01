@@ -25,6 +25,7 @@ import { ApplicationPrivateScreenProps } from 'types/navigation';
 import { Supply } from '@/services/schemas/supplies';
 // Services
 import SpotsService from '@/services/SpotsService';
+import SuppliesService from '@/services/SuppliesService';
 
 const SpotDetails = ({
   route,
@@ -40,7 +41,7 @@ const SpotDetails = ({
   const [searchSupplies, setSearchSupplies] = useState<Supply[]>();
 
   // queries
-  const { isLoading, data, refetch } = useQuery(
+  const { isFetching, data, refetch } = useQuery(
     ['getOneSpot', route.params.id],
     () => SpotsService.getSpot(route.params.id),
     {
@@ -76,6 +77,7 @@ const SpotDetails = ({
   );
 
   const deleteMutation = useMutation(SpotsService.deleteSpot);
+  const deleteSupplyMutation = useMutation(SuppliesService.deleteSupplyInSpot);
 
   //methods
   const handleRefresh = () => refetch();
@@ -102,6 +104,21 @@ const SpotDetails = ({
       },
       {
         text: t('deleteModal.actions.cancel'),
+        style: 'cancel',
+      },
+    ]);
+  };
+
+  const handleDeleteSupply = (supplyId: string) => {
+    Alert.alert(t('deleteSupply.title'), t('deleteSupply.description'), [
+      {
+        text: t('deleteSupply.actions.ok'),
+        onPress: () =>
+          deleteSupplyMutation.mutate({ spotId: route.params.id, supplyId }),
+        style: 'default',
+      },
+      {
+        text: t('deleteSupply.actions.cancel'),
         style: 'cancel',
       },
     ]);
@@ -161,13 +178,25 @@ const SpotDetails = ({
     }
   }, [deleteMutation.isSuccess]);
 
+  useEffect(() => {
+    if (deleteSupplyMutation.isSuccess) {
+      refetch();
+    }
+  }, [deleteSupplyMutation.isSuccess]);
+
   return (
     <ScreenContainer>
       <View style={[gutters.paddingHorizontal_16, layout.flex_1]}>
         {deleteMutation?.isError ? (
           <Message type="error" message={t('errors.delete')} />
         ) : null}
-        <SkeletonLoader isActive={isLoading}>
+        <SkeletonLoader
+          isActive={
+            isFetching ||
+            deleteMutation.isLoading ||
+            deleteSupplyMutation.isLoading
+          }
+        >
           <Text
             style={[
               fonts.nationalBold,
@@ -209,7 +238,7 @@ const SpotDetails = ({
             style={[gutters.marginTop_16]}
             refreshControl={
               <RefreshControl
-                refreshing={isLoading}
+                refreshing={isFetching}
                 onRefresh={handleRefresh}
               />
             }
@@ -217,7 +246,11 @@ const SpotDetails = ({
             <View style={[layout.row, layout.wrap, { marginBottom: 110 }]}>
               {supplies?.map(({ name, marque, id }) => (
                 <View key={`spot-${id}`} style={[gutters.margin_8]}>
-                  <MenuItem title={name} subtitle={marque} />
+                  <MenuItem
+                    title={name}
+                    subtitle={marque}
+                    onLongPress={() => handleDeleteSupply(id)}
+                  />
                 </View>
               ))}
             </View>
