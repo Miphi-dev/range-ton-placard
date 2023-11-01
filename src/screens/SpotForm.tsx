@@ -18,12 +18,14 @@ import SpotsService, {
   spotPayloadSchema,
 } from '@/services/SpotsService';
 import { ApplicationPrivateScreenProps } from 'types/navigation';
+import useToast from '@/hooks/useToast';
 
 const SpotForm = ({
   navigation,
 }: ApplicationPrivateScreenProps<'SpotForm'>) => {
   const { fonts, backgrounds, layout, gutters } = useTheme();
   const { t } = useTranslation(['spotForm']);
+  const { showToast } = useToast();
 
   const {
     control,
@@ -43,6 +45,7 @@ const SpotForm = ({
   useEffect(() => {
     if (createSpotMutation.isSuccess) {
       navigation.navigate('Home');
+      showToast(t('form.success.create'));
     }
   }, [createSpotMutation.isSuccess]);
 
