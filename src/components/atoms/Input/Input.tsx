@@ -28,7 +28,7 @@ function Input<V extends FieldValues>({
   name,
   ...props
 }: Props<V>) {
-  const { borders, backgrounds, gutters, fonts, layout } = useTheme();
+  const { borders, backgrounds, gutters, fonts } = useTheme();
   return (
     <View style={style}>
       <Text
@@ -59,7 +59,7 @@ function Input<V extends FieldValues>({
               borders.border_pink800,
               gutters.paddingHorizontal_16,
               fonts.text_white,
-              props.multiline ? {} : { height: 53 },
+              props.multiline ? { minHeight: 106 } : { height: 53 },
             ]}
             placeholderTextColor={backgrounds.gray200.backgroundColor}
           />
