@@ -42,7 +42,7 @@ const SupplyForm = ({
   const createSupplyMutation = useMutation(SuppliesService.createSupplyInSpot);
 
   const onSubmit = (data: SupplyPayload) => {
-    createSupplyMutation.mutate({ id: route.params.spotId, data });
+    createSupplyMutation.mutate({ spotId: route.params.spotId, data });
   };
 
   useEffect(() => {
