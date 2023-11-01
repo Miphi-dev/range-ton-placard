@@ -1,13 +1,16 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Platform, Text, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import useTheme from '@/theme/useTheme';
 
 const HeaderBackImage = () => {
-  const { layout, borders, backgrounds, fonts } = useTheme();
+  const { layout, borders, backgrounds, fonts, gutters } = useTheme();
   return (
     <LinearGradient
-      style={[borders.rounded_16]}
+      style={[
+        borders.rounded_16,
+        Platform.OS === 'ios' ? gutters.marginLeft_8 : null,
+      ]}
       start={{ x: 1, y: 1 }}
       end={{ x: 0, y: 0 }}
       colors={[

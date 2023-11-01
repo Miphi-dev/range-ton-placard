@@ -1,11 +1,28 @@
-import { z } from 'zod';
+import firestore from '@react-native-firebase/firestore';
+import { SupplyPayload } from '@/services/schemas/supplies';
 
-export const supplySchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  marque: z.string(),
-});
+const createSupplyInSpot = async (payload: {
+  id: string;
+  data: SupplyPayload;
+}) => {
+  try {
+    const documentRef = await firestore()
+      .collection('supplies')
+      .add(payload.data);
 
-export type Supply = z.infer<typeof supplySchema>;
+    const response = await firestore()
+      .collection('spots')
+      .doc(payload.id)
+      .update({
+        supplies: firestore.FieldValue.arrayUnion(documentRef),
+      });
 
-export type SupplyDoc = Omit<Supply, 'id'>;
+    return Promise.resolve(response);
+  } catch (e) {
+    return Promise.reject(e);
+  }
+};
+
+export default {
+  createSupplyInSpot,
+};

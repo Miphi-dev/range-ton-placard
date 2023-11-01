@@ -1,29 +1,13 @@
-import { z } from 'zod';
 import firestore, {
   FirebaseFirestoreTypes,
 } from '@react-native-firebase/firestore';
-import { Supply, SupplyDoc, supplySchema } from '@/services/SuppliesService';
-
-export const spotSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  description: z.string(),
-});
-
-export const spotWithSuppliesSchema = spotSchema.extend({
-  supplies: z.array(supplySchema),
-});
-
-export type Spot = z.infer<typeof spotSchema>;
-export type SpotWithSupplies = z.infer<typeof spotWithSuppliesSchema>;
-
-type SpotDoc = Omit<Spot, 'id'>;
-type SpotWithSuppliesDoc = Omit<SpotWithSupplies, 'id' | 'supplies'> & {
-  supplies: FirebaseFirestoreTypes.DocumentReference<SupplyDoc>[];
-};
-
-export const spotPayloadSchema = spotSchema.omit({ id: true });
-export type SpotPayload = z.infer<typeof spotPayloadSchema>;
+import {
+  Spot,
+  SpotDoc,
+  SpotPayload,
+  SpotWithSuppliesDoc,
+} from '@/services/schemas/spots';
+import { Supply, SupplyDoc, supplySchema } from '@/services/schemas/supplies';
 
 const getSpots = async () => {
   try {
@@ -72,6 +56,8 @@ const getSpot = async (id: string) => {
       })
       .filter(supply => supply !== null) as Supply[];
 
+    supplies.sort((a, b) => a.name.localeCompare(b.name));
+
     return Promise.resolve({ ...spot, supplies });
   } catch (e) {
     return Promise.reject(e);
@@ -82,8 +68,7 @@ const createSpot = async (data: SpotPayload) => {
   try {
     const response = await firestore()
       .collection('spots')
-      .doc()
-      .set({ ...data, supplies: [] });
+      .add({ ...data, supplies: [] });
     return Promise.resolve(response);
   } catch (e) {
     return Promise.reject(e);
@@ -95,7 +80,10 @@ const updateSpot = async (payload: {
   data: Partial<SpotPayload>;
 }) => {
   try {
-    const response = await firestore().collection('spots').doc(payload.id).update(payload.data);
+    const response = await firestore()
+      .collection('spots')
+      .doc(payload.id)
+      .update(payload.data);
     return Promise.resolve(response);
   } catch (e) {
     return Promise.reject(e);
