@@ -6,7 +6,7 @@ import useTheme from '@/theme/useTheme';
 
 type Props = {
   title: string;
-  onPress?: () => {};
+  onPress?: () => unknown;
   subtitle?: string;
 };
 const MenuItem = ({ title, subtitle, onPress }: Props) => {

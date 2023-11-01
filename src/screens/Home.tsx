@@ -1,5 +1,12 @@
-import React from 'react';
-import { Alert, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import React, { useCallback } from 'react';
+import {
+  Alert,
+  RefreshControl,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { ApplicationPrivateScreenProps } from 'types/navigation';
 // components
 import ScreenContainer from '@/components/templates/ScreenContainer';
@@ -13,6 +20,7 @@ import { useTranslation } from 'react-i18next';
 // services
 import AuthenticationService from '@/services/AuthenticationService';
 import SpotsService from '@/services/SpotsService';
+import { useFocusEffect } from '@react-navigation/native';
 
 const Home = ({ navigation }: ApplicationPrivateScreenProps<'Home'>) => {
   const { fonts, gutters, layout } = useTheme();
@@ -21,7 +29,7 @@ const Home = ({ navigation }: ApplicationPrivateScreenProps<'Home'>) => {
   // Queries
   const logoutMutation = useMutation(AuthenticationService.logout);
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ['spots'],
     queryFn: SpotsService.getSpots,
     placeholderData: [
@@ -48,6 +56,17 @@ const Home = ({ navigation }: ApplicationPrivateScreenProps<'Home'>) => {
     ]);
 
   const handleAddSpot = () => navigation.navigate('SpotForm');
+  const handleRefresh = () => refetch();
+
+  const handleSpotPress = (id: string) =>
+    navigation.navigate('SpotDetails', { id });
+
+  // effects
+  useFocusEffect(
+    useCallback(() => {
+      refetch();
+    }, [])
+  );
 
   return (
     <ScreenContainer>
@@ -104,11 +123,22 @@ const Home = ({ navigation }: ApplicationPrivateScreenProps<'Home'>) => {
               </Text>
             </TouchableOpacity>
           </View>
-          <ScrollView>
+          <ScrollView
+            refreshControl={
+              <RefreshControl
+                refreshing={isLoading}
+                onRefresh={handleRefresh}
+              />
+            }
+          >
             <View style={gutters.marginBottom_32}>
               {data?.map(({ name, description }, index) => (
                 <View key={`spot-${index}`} style={gutters.marginVertical_8}>
-                  <MenuItem title={name} subtitle={description} />
+                  <MenuItem
+                    onPress={() => handleSpotPress('12345')}
+                    title={name}
+                    subtitle={description}
+                  />
                 </View>
               ))}
             </View>
