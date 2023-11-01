@@ -14,70 +14,43 @@ import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import useToast from '@/hooks/useToast';
 // Services
-import SpotsService from '@/services/SpotsService';
 // Types
 import { ApplicationPrivateScreenProps } from 'types/navigation';
-import { SpotPayload, spotPayloadSchema } from '@/services/schemas/spots';
+import {
+  SupplyPayload,
+  supplyPayloadSchema,
+} from '@/services/schemas/supplies';
+import SuppliesService from '@/services/SuppliesService';
 
-const SpotForm = ({
+const SupplyForm = ({
   navigation,
   route,
-}: ApplicationPrivateScreenProps<'SpotForm'>) => {
+}: ApplicationPrivateScreenProps<'SupplyForm'>) => {
   const { backgrounds, layout, gutters } = useTheme();
-  const { t } = useTranslation(['spotForm', 'navigation']);
+  const { t } = useTranslation(['supplyForm', 'navigation']);
   const { showToast } = useToast();
 
   const {
     control,
     handleSubmit,
     formState: { isValid },
-  } = useForm<SpotPayload>({
-    resolver: zodResolver(spotPayloadSchema),
+  } = useForm<SupplyPayload>({
+    resolver: zodResolver(supplyPayloadSchema),
     mode: 'onChange',
-    defaultValues: route?.params?.data,
   });
 
-  const createSpotMutation = useMutation(SpotsService.createSpot);
-  const updateSpotMutation = useMutation(SpotsService.updateSpot);
+  const createSupplyMutation = useMutation(SuppliesService.createSupplyInSpot);
 
-  const onSubmit = (data: SpotPayload) => {
-    if (route?.params?.data?.id) {
-      updateSpotMutation.mutate({
-        data,
-        id: route.params.data.id,
-      });
-    } else {
-      createSpotMutation.mutate(data);
-    }
+  const onSubmit = (data: SupplyPayload) => {
+    createSupplyMutation.mutate({ id: route.params.spotId, data });
   };
 
   useEffect(() => {
-    if (createSpotMutation.isSuccess) {
-      navigation.navigate('Home');
+    if (createSupplyMutation.isSuccess) {
+      navigation.navigate('SpotDetails', { id: route.params.spotId });
       showToast(t('form.success.create'));
     }
-  }, [createSpotMutation.isSuccess]);
-
-  useEffect(() => {
-    if (updateSpotMutation.isSuccess) {
-      navigation.navigate('Home');
-      showToast(t('form.success.update'));
-    }
-  }, [updateSpotMutation.isSuccess]);
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerTitleContainerStyle: {
-        marginLeft: 0,
-      },
-      headerTitleStyle: {
-        fontSize: 16,
-      },
-      headerTitle: route?.params?.data
-        ? t('navigation:spotFormUpdate')
-        : t('navigation:spotFormCreate'),
-    });
-  }, [navigation]);
+  }, [createSupplyMutation.isSuccess]);
 
   return (
     <ScreenContainer>
@@ -128,7 +101,7 @@ const SpotForm = ({
       >
         <View style={{ height: '40%' }}>
           <View style={[gutters.paddingTop_24]}>
-            {createSpotMutation.isError ? (
+            {createSupplyMutation.isError ? (
               <Message type="error" message={t('form.error.create')} />
             ) : null}
           </View>
@@ -142,9 +115,9 @@ const SpotForm = ({
           <Input
             style={[gutters.marginTop_24]}
             control={control}
-            name={'description'}
-            placeholder={t('form.description.placeholder')}
-            label={t('form.description.label')}
+            name={'marque'}
+            placeholder={t('form.marque.placeholder')}
+            label={t('form.marque.label')}
             multiline
           />
         </View>
@@ -152,11 +125,7 @@ const SpotForm = ({
           <Button
             disabled={!isValid}
             onPress={handleSubmit(onSubmit)}
-            label={
-              route?.params?.data
-                ? t('form.action.update.label')
-                : t('form.action.new.label')
-            }
+            label={t('form.action.new.label')}
             type={'outline'}
           />
         </View>
@@ -164,4 +133,4 @@ const SpotForm = ({
     </ScreenContainer>
   );
 };
-export default SpotForm;
+export default SupplyForm;

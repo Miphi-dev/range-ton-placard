@@ -70,7 +70,7 @@ const Button = ({
                 fonts.nationalBold,
                 fonts.uppercase,
                 fonts.text_white,
-                fonts.font_16,
+                fonts.font_12,
               ]}
             >
               {label}

@@ -42,7 +42,7 @@ const MenuItem = ({ title, subtitle, onPress }: Props) => {
           backgrounds.pink800.backgroundColor,
         ]}
       >
-        <View style={{ width: '90%' }}>
+        <View>
           <Text
             style={[
               fonts.text_white,
@@ -53,7 +53,14 @@ const MenuItem = ({ title, subtitle, onPress }: Props) => {
           >
             {title}
           </Text>
-          <Text style={[fonts.text_white, fonts.nationalLight, fonts.font_12]}>
+          <Text
+            style={[
+              fonts.text_white,
+              fonts.nationalLight,
+              fonts.font_12,
+              onPress ? gutters.paddingRight_16 : null,
+            ]}
+          >
             {subtitle}
           </Text>
         </View>

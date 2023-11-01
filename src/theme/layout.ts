@@ -7,6 +7,9 @@ export default {
   colReverse: {
     flexDirection: 'column-reverse',
   },
+  wrap: {
+    flexWrap: 'wrap',
+  },
   row: {
     flexDirection: 'row',
   },

@@ -1,0 +1,29 @@
+{
+  "pageTitleNew": "Nouveau produit",
+  "pageTitleUpdate": "Modifier le produit",
+  "form": {
+    "name": {
+      "label": "Nom du produit",
+      "placeholder": "Poil à gratter"
+    },
+    "marque": {
+      "label": "Marque",
+      "placeholder": "MiphiCorp"
+    },
+    "action": {
+      "new": {
+        "label": "Ajouter"
+      },
+      "update": {
+        "label": "Modifier"
+      }
+    },
+    "error": {
+      "create": "Une erreur est survenue lors de la création du produit"
+    },
+    "success": {
+      "create": "\uD83E\uDD6B Produit créé",
+      "update": "\uD83E\uDD6B Produit modifié"
+    }
+  }
+}

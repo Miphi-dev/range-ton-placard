@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import { Spot } from '@/services/SpotsService';
+import { Spot } from '@/services/schemas/spots';
 
 export type ApplicationPublicStackParamList = {
   Login: undefined;
@@ -9,12 +9,13 @@ export type ApplicationPrivateStackParamList = {
   Home: undefined;
   SpotForm: undefined | { data?: Spot };
   SpotDetails: { id: string };
+  SupplyForm: { spotId: string };
 };
 
 export type ApplicationPublicScreenProps<
-  S extends keyof ApplicationPublicStackParamList = keyof ApplicationPublicStackParamList
+  S extends keyof ApplicationPublicStackParamList = keyof ApplicationPublicStackParamList,
 > = StackScreenProps<ApplicationPublicStackParamList, S>;
 
 export type ApplicationPrivateScreenProps<
-  S extends keyof ApplicationPrivateStackParamList = keyof ApplicationPrivateStackParamList
+  S extends keyof ApplicationPrivateStackParamList = keyof ApplicationPrivateStackParamList,
 > = StackScreenProps<ApplicationPrivateStackParamList, S>;
