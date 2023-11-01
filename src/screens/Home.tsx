@@ -1,82 +1,36 @@
 import React from 'react';
 import { Alert, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { ApplicationPrivateScreenProps } from 'types/navigation';
 // components
 import ScreenContainer from '@/components/templates/ScreenContainer';
 import Button from '@/components/atoms/Button/Button';
 import MenuItem from '@/components/atoms/MenuItem/MenuItem';
+import SkeletonLoader from '@/components/atoms/SkeletonLoader/SkeletonLoader';
 // hooks
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import useTheme from '@/theme/useTheme';
 import { useTranslation } from 'react-i18next';
 // services
 import AuthenticationService from '@/services/AuthenticationService';
-import { ApplicationPrivateScreenProps } from 'types/navigation';
+import SpotsService from '@/services/SpotsService';
 
-const spots = [
-  {
-    name: 'Boite de réserve',
-    description:
-      "Les choses qu'on a déjà rangés ailleurs mais qu'on a acheté d'avance au cas ou",
-  },
-  {
-    name: 'Frigo',
-    description: 'Les choses qui pourrissent vite',
-  },
-  {
-    name: 'Boite apéro',
-    description: 'Les choses qui croustillent',
-  },
-  {
-    name: 'Boite patisserie',
-    description: 'Les choses qui se mettent dans les gateaux',
-  },
-  {
-    name: 'Boite patisserie',
-    description: 'Les choses qui se mettent dans les gateaux',
-  },
-  {
-    name: 'Boite patisserie',
-    description: 'Les choses qui se mettent dans les gateaux',
-  },
-  {
-    name: 'Boite patisserie',
-    description: 'Les choses qui se mettent dans les gateaux',
-  },
-  {
-    name: 'Boite patisserie',
-    description: 'Les choses qui se mettent dans les gateaux',
-  },
-  {
-    name: 'Boite patisserie',
-    description: 'Les choses qui se mettent dans les gateaux',
-  },
-  {
-    name: 'Boite patisserie',
-    description: 'Les choses qui se mettent dans les gateaux',
-  },
-  {
-    name: 'Boite patisserie',
-    description: 'Les choses qui se mettent dans les gateaux',
-  },
-  {
-    name: 'Boite patisserie',
-    description: 'Les choses qui se mettent dans les gateaux',
-  },
-  {
-    name: 'Boite patisserie',
-    description: 'Les choses qui se mettent dans les gateaux',
-  },
-  {
-    name: 'LAST',
-    description: 'Les choses qui se mettent dans les gateaux',
-  },
-];
 const Home = ({ navigation }: ApplicationPrivateScreenProps<'Home'>) => {
   const { fonts, gutters, layout } = useTheme();
   const { t } = useTranslation(['home']);
 
   // Queries
   const logoutMutation = useMutation(AuthenticationService.logout);
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['spots'],
+    queryFn: SpotsService.getSpots,
+    placeholderData: [
+      { id: '1', name: 'Spot 1', description: 'Description 1' },
+      { id: '2', name: 'Spot 2', description: 'Description 2' },
+      { id: '3', name: 'Spot 3', description: 'Description 3' },
+      { id: '4', name: 'Spot 4', description: 'Description 4' },
+    ],
+  });
 
   // methods
   const handleLogout = () =>
@@ -125,37 +79,41 @@ const Home = ({ navigation }: ApplicationPrivateScreenProps<'Home'>) => {
           />
         </View>
         {/*spots section*/}
-        <View
-          style={[
-            layout.row,
-            layout.itemsCenter,
-            gutters.marginTop_32,
-            gutters.marginBottom_16,
-          ]}
-        >
-          <Text style={[fonts.text_white, fonts.nationalLight, fonts.font_24]}>
-            {t('spotList')}
-          </Text>
-          <TouchableOpacity
-            onPress={handleAddSpot}
-            style={[gutters.marginLeft_16, { marginTop: -5 }]}
+        <SkeletonLoader isActive={isLoading}>
+          <View
+            style={[
+              layout.row,
+              layout.itemsCenter,
+              gutters.marginTop_32,
+              gutters.marginBottom_16,
+            ]}
           >
             <Text
-              style={[fonts.nationalLight, fonts.text_white, fonts.font_40]}
+              style={[fonts.text_white, fonts.nationalLight, fonts.font_24]}
             >
-              +
+              {t('spotList')}
             </Text>
-          </TouchableOpacity>
-        </View>
-        <ScrollView>
-          <View style={gutters.marginBottom_32}>
-            {spots?.map(({ name, description }, index) => (
-              <View key={`spot-${index}`} style={gutters.marginVertical_8}>
-                <MenuItem title={name} subtitle={description} />
-              </View>
-            ))}
+            <TouchableOpacity
+              onPress={handleAddSpot}
+              style={[gutters.marginLeft_16, { marginTop: -5 }]}
+            >
+              <Text
+                style={[fonts.nationalLight, fonts.text_white, fonts.font_40]}
+              >
+                +
+              </Text>
+            </TouchableOpacity>
           </View>
-        </ScrollView>
+          <ScrollView>
+            <View style={gutters.marginBottom_32}>
+              {data?.map(({ name, description }, index) => (
+                <View key={`spot-${index}`} style={gutters.marginVertical_8}>
+                  <MenuItem title={name} subtitle={description} />
+                </View>
+              ))}
+            </View>
+          </ScrollView>
+        </SkeletonLoader>
       </View>
     </ScreenContainer>
   );

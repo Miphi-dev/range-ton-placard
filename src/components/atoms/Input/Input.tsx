@@ -28,7 +28,7 @@ function Input<V extends FieldValues>({
   name,
   ...props
 }: Props<V>) {
-  const { borders, backgrounds, gutters, fonts } = useTheme();
+  const { borders, backgrounds, gutters, fonts, layout } = useTheme();
   return (
     <View style={style}>
       <Text
@@ -50,6 +50,7 @@ function Input<V extends FieldValues>({
             value={value}
             onChangeText={onChange}
             selectionColor={backgrounds.white.backgroundColor}
+            textAlignVertical={props.multiline ? 'top' : 'center'}
             style={[
               fonts.nationalRegular,
               fonts.font_16,
@@ -58,7 +59,7 @@ function Input<V extends FieldValues>({
               borders.border_pink800,
               gutters.paddingHorizontal_16,
               fonts.text_white,
-              { height: 53 },
+              props.multiline ? {} : { height: 53 },
             ]}
             placeholderTextColor={backgrounds.gray200.backgroundColor}
           />

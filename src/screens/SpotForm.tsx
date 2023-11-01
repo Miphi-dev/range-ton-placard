@@ -13,35 +13,38 @@ import { useTranslation } from 'react-i18next';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 // Services
-import authentication, {
-  LoginPayload,
-  loginPayloadSchema,
-} from '@/services/AuthenticationService';
+import SpotsService, {
+  SpotPayload,
+  spotPayloadSchema,
+} from '@/services/SpotsService';
+import { ApplicationPrivateScreenProps } from 'types/navigation';
 
-const SpotForm = () => {
+const SpotForm = ({
+  navigation,
+}: ApplicationPrivateScreenProps<'SpotForm'>) => {
   const { fonts, backgrounds, layout, gutters } = useTheme();
-  const { t } = useTranslation(['login']);
+  const { t } = useTranslation(['spotForm']);
 
   const {
     control,
     handleSubmit,
     formState: { isValid },
-  } = useForm<LoginPayload>({
-    resolver: zodResolver(loginPayloadSchema),
+  } = useForm<SpotPayload>({
+    resolver: zodResolver(spotPayloadSchema),
     mode: 'onChange',
   });
 
-  const loginMutation = useMutation(authentication.login);
+  const createSpotMutation = useMutation(SpotsService.createSpot);
 
-  const onSubmit = (data: LoginPayload) => {
-    return loginMutation.mutate(data);
+  const onSubmit = (data: SpotPayload) => {
+    return createSpotMutation.mutate(data);
   };
 
   useEffect(() => {
-    if (loginMutation.isSuccess) {
-      console.log(loginMutation.data);
+    if (createSpotMutation.isSuccess) {
+      navigation.navigate('Home');
     }
-  }, [loginMutation.isSuccess]);
+  }, [createSpotMutation.isSuccess]);
 
   return (
     <ScreenContainer>
@@ -104,39 +107,28 @@ const SpotForm = () => {
               fonts.nationalBold,
             ]}
           >
-            {/*{t('pageTitle')}*/}
-            {'COUCOU FORM'}
+            {t('pageTitleNew')}
           </Text>
-          <Text
-            style={[
-              fonts.text_white,
-              fonts.font_16,
-              gutters.marginBottom_32,
-              fonts.nationalLight,
-            ]}
-          >
-            {t('pageSubtitle')}
-          </Text>
-          {loginMutation.isError ? (
-            <Message type="error" message={t('form.error')} />
+
+          {createSpotMutation.isError ? (
+            <Message type="error" message={t('form.error.create')} />
           ) : null}
         </View>
         <View style={{ height: '40%' }}>
           <Input
             control={control}
             name={'name'}
-            placeholder={t('form.login.placeholder')}
-            label={t('form.login.label')}
-            keyboardType={'email-address'}
+            placeholder={t('form.name.placeholder')}
+            label={t('form.name.label')}
           />
 
           <Input
             style={[gutters.marginTop_24]}
             control={control}
             name={'description'}
-            placeholder={t('form.password.placeholder')}
-            label={t('form.password.label')}
-            secureTextEntry
+            placeholder={t('form.description.placeholder')}
+            label={t('form.description.label')}
+            multiline
           />
         </View>
         <View
@@ -148,8 +140,8 @@ const SpotForm = () => {
         >
           <Button
             disabled={!isValid}
-            isLoading={loginMutation.isLoading}
-            label={t('form.action.label')}
+            isLoading={createSpotMutation.isLoading}
+            label={t('form.action.new.label')}
             onPress={handleSubmit(onSubmit)}
             style={gutters.paddingHorizontal_32}
           />

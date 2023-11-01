@@ -4,9 +4,9 @@
   "form": {
     "name": {
       "label": "Nom de l'emplacement",
-      "placeholder": "Le tiroir haut à gauche"
+      "placeholder": "Le tiroir en haut à gauche"
     },
-    "password": {
+    "description": {
       "label": "Description",
       "placeholder": "Mais si tu sais le placard dans la cuisine. Celui où on met tous les trucs pour le machin."
     },
@@ -17,6 +17,9 @@
       "update": {
         "label": "Modifier"
       }
+    },
+    "error": {
+      "create": "Une erreur est survenue lors de la création de l'emplacement."
     }
   }
 }
