@@ -65,7 +65,7 @@ const Home = ({ navigation }: ApplicationPrivateScreenProps<'Home'>) => {
   useFocusEffect(
     useCallback(() => {
       refetch();
-    }, [])
+    }, []),
   );
 
   return (

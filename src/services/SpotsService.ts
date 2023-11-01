@@ -1,15 +1,26 @@
 import { z } from 'zod';
-import firestore from '@react-native-firebase/firestore';
+import firestore, {
+  FirebaseFirestoreTypes,
+} from '@react-native-firebase/firestore';
+import { Supply, SupplyDoc, supplySchema } from '@/services/SuppliesService';
 
 export const spotSchema = z.object({
   id: z.string(),
   name: z.string(),
   description: z.string(),
-  // supplies: z.array(supplySchema),
+});
+
+export const spotWithSuppliesSchema = spotSchema.extend({
+  supplies: z.array(supplySchema),
 });
 
 export type Spot = z.infer<typeof spotSchema>;
+export type SpotWithSupplies = z.infer<typeof spotWithSuppliesSchema>;
+
 type SpotDoc = Omit<Spot, 'id'>;
+type SpotWithSuppliesDoc = Omit<SpotWithSupplies, 'id' | 'supplies'> & {
+  supplies: FirebaseFirestoreTypes.DocumentReference<SupplyDoc>[];
+};
 
 export const spotPayloadSchema = spotSchema.omit({ id: true });
 export type SpotPayload = z.infer<typeof spotPayloadSchema>;
@@ -19,7 +30,7 @@ const getSpots = async () => {
     const spotSnapshots = await firestore().collection<SpotDoc>('spots').get();
     const spots: Spot[] = [];
 
-    spotSnapshots.forEach((spotRef) => {
+    spotSnapshots.forEach(spotRef => {
       spots.push({ ...spotRef.data(), id: spotRef.id });
     });
 
@@ -32,12 +43,36 @@ const getSpots = async () => {
 const getSpot = async (id: string) => {
   try {
     const spotSnapshot = await firestore()
-      .collection<SpotDoc>('spots')
+      .collection<SpotWithSuppliesDoc>('spots')
       .doc(id)
       .get();
     const spot = spotSnapshot.data();
 
-    return Promise.resolve(spot);
+    const suppliesPromises: Promise<
+      FirebaseFirestoreTypes.DocumentSnapshot<SupplyDoc>
+    >[] = [];
+
+    spot?.supplies.forEach(supply => {
+      suppliesPromises.push(supply.get());
+    });
+
+    const foo = await Promise.all(suppliesPromises);
+    const supplies = foo
+      .map(supply => {
+        const data = supply.data();
+        const unknownSupply = {
+          id: supply.id,
+          ...data,
+        };
+
+        if (supplySchema.safeParse(unknownSupply).success) {
+          return supplySchema.parse(unknownSupply);
+        }
+        return null;
+      })
+      .filter(supply => supply !== null) as Supply[];
+
+    return Promise.resolve({ ...spot, supplies });
   } catch (e) {
     return Promise.reject(e);
   }
@@ -45,7 +80,10 @@ const getSpot = async (id: string) => {
 
 const createSpot = async (data: SpotPayload) => {
   try {
-    const response = await firestore().collection('spots').doc().set(data);
+    const response = await firestore()
+      .collection('spots')
+      .doc()
+      .set({ ...data, supplies: [] });
     return Promise.resolve(response);
   } catch (e) {
     return Promise.reject(e);
