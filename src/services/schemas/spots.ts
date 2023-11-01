@@ -6,6 +6,7 @@ export const spotSchema = z.object({
   id: z.string(),
   name: z.string(),
   description: z.string(),
+  keywords: z.array(z.string()),
 });
 
 export const spotWithSuppliesSchema = spotSchema.extend({
@@ -20,5 +21,5 @@ export type SpotWithSuppliesDoc = Omit<SpotWithSupplies, 'id' | 'supplies'> & {
   supplies: FirebaseFirestoreTypes.DocumentReference<SupplyDoc>[];
 };
 
-export const spotPayloadSchema = spotSchema.omit({ id: true });
+export const spotPayloadSchema = spotSchema.omit({ id: true, keywords: true });
 export type SpotPayload = z.infer<typeof spotPayloadSchema>;
