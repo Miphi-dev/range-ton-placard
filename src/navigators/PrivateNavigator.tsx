@@ -4,16 +4,24 @@ import {
   HeaderStyleInterpolators,
 } from '@react-navigation/stack';
 
-import { ApplicationStackParamList } from 'types/navigation';
+import { ApplicationPrivateStackParamList } from 'types/navigation';
+// Screens
 import Home from '@/screens/Home';
+import SpotForm from '@/screens/SpotForm';
+import SpotDetails from '@/screens/SpotDetails';
+import useTheme from '@/theme/useTheme';
+import HeaderBackImage from '@/components/atoms/HeaderBackImage/HeaderBackImage';
 
-const Stack = createStackNavigator<ApplicationStackParamList>();
+const Stack = createStackNavigator<ApplicationPrivateStackParamList>();
 
 const MainNavigator = () => {
+  const { fonts } = useTheme();
   return (
     <Stack.Navigator
       screenOptions={{
-        headerShown: false,
+        headerTitleStyle: { ...fonts.nationalBold, ...fonts.font_24 },
+        headerLeftLabelVisible: false,
+        headerBackImage: () => <HeaderBackImage />,
         cardStyleInterpolator: ({ current: { progress } }) => ({
           cardStyle: {
             opacity: progress.interpolate({
@@ -25,7 +33,17 @@ const MainNavigator = () => {
         headerStyleInterpolator: HeaderStyleInterpolators.forFade,
       }}
     >
-      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen
+        name="Home"
+        component={Home}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen name="SpotForm" component={SpotForm} />
+      <Stack.Screen
+        name="SpotDetails"
+        component={SpotDetails}
+        options={{ headerTitle: '' }}
+      />
     </Stack.Navigator>
   );
 };

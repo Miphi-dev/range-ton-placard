@@ -1,0 +1,18 @@
+{
+  "actions": {
+    "edit": "✏\uFE0F",
+    "delete": "\uD83D\uDDD1\uFE0F"
+  },
+  "deleteModal": {
+    "title": "\uD83D\uDE31 Es-tu sûr(e) de vouloir supprimer cet emplacement ?",
+    "description": "En cliquant sur valider c'est comme si tu jetais la boite par la fenêtre, il n'y aura pas de retour en arrière possible.",
+    "actions": {
+      "ok": "Valider",
+      "cancel": "Annuler"
+    }
+  },
+  "errors": {
+    "notfound": "Emplacement introuvable",
+    "delete": "Une erreur est survenue lors de la suppression de l'emplacement."
+  }
+}

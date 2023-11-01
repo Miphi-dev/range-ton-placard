@@ -1,0 +1,29 @@
+{
+  "pageTitleNew": "Nouvel emplacement",
+  "pageTitleUpdate": "Modifier l'emplacement",
+  "form": {
+    "name": {
+      "label": "Nom de l'emplacement",
+      "placeholder": "Le tiroir en haut à gauche"
+    },
+    "description": {
+      "label": "Description",
+      "placeholder": "Mais si tu sais le placard dans la cuisine. Celui où on met tous les trucs pour le machin."
+    },
+    "action": {
+      "new": {
+        "label": "Ajouter"
+      },
+      "update": {
+        "label": "Modifier"
+      }
+    },
+    "error": {
+      "create": "Une erreur est survenue lors de la création de l'emplacement."
+    },
+    "success": {
+      "create": "🧺 Emplacement créé",
+      "update": "🧺 Emplacement modifié"
+    }
+  }
+}

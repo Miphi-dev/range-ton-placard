@@ -37,12 +37,6 @@ const Login = () => {
     return loginMutation.mutate(data);
   };
 
-  useEffect(() => {
-    if (loginMutation.isSuccess) {
-      console.log(loginMutation.data);
-    }
-  }, [loginMutation.isSuccess]);
-
   return (
     <ScreenContainer>
       <LinearGradient
