@@ -7,9 +7,10 @@ import useTheme from '@/theme/useTheme';
 type Props = {
   title: string;
   onPress?: () => unknown;
+  onLongPress?: () => unknown;
   subtitle?: string;
 };
-const MenuItem = ({ title, subtitle, onPress }: Props) => {
+const MenuItem = ({ title, subtitle, onPress, onLongPress }: Props) => {
   const { fonts, gutters, borders, layout, backgrounds } = useTheme();
 
   const getLocation = () => {
@@ -18,7 +19,7 @@ const MenuItem = ({ title, subtitle, onPress }: Props) => {
   };
 
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onPress} onLongPress={onLongPress}>
       <LinearGradient
         style={[
           gutters.padding_16,
@@ -75,6 +76,7 @@ const MenuItem = ({ title, subtitle, onPress }: Props) => {
 MenuItem.defaultProps = {
   subtitle: '',
   onPress: undefined,
+  onLongPress: undefined,
 };
 
 export default MenuItem;
