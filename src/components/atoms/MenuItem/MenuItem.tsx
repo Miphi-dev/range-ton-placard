@@ -58,7 +58,7 @@ const MenuItem = ({ title, subtitle, onPress }: Props) => {
           </Text>
         </View>
         <Text style={[fonts.text_white, fonts.nationalLight, fonts.font_32]}>
-          {'>'}
+          {onPress ? '>' : ''}
         </Text>
       </LinearGradient>
     </TouchableOpacity>
@@ -67,7 +67,7 @@ const MenuItem = ({ title, subtitle, onPress }: Props) => {
 
 MenuItem.defaultProps = {
   subtitle: '',
-  onPress: () => {},
+  onPress: undefined,
 };
 
 export default MenuItem;

@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-import { Alert, Text, View } from 'react-native';
+import { Alert, RefreshControl, ScrollView, Text, View } from 'react-native';
 // Components
 import ScreenContainer from '@/components/templates/ScreenContainer';
 import SkeletonLoader from '@/components/atoms/SkeletonLoader/SkeletonLoader';
 import Button from '@/components/atoms/Button/Button';
 import Message from '@/components/atoms/Message/Message';
+import MenuItem from '@/components/atoms/MenuItem/MenuItem';
 // Hooks
 import useTheme from '@/theme/useTheme';
 import { useTranslation } from 'react-i18next';
@@ -22,23 +23,31 @@ const SpotDetails = ({
   const { t } = useTranslation(['spotDetails']);
 
   // queries
-  const { isLoading, data } = useQuery(
+  const { isLoading, data, refetch } = useQuery(
     ['getOneSpot', route.params.id],
     () => SpotsService.getSpot(route.params.id),
     {
       enabled: !!route.params.id,
     }
   );
+
   const deleteMutation = useMutation(SpotsService.deleteSpot);
 
   //methods
+  const handleRefresh = () => refetch();
+
   const handleEditPress = () => {
     if (data) {
       navigation.navigate('SpotForm', {
-        data: { ...data, id: route.params.id },
+        data: {
+          name: data.name || '',
+          description: data.description || '',
+          id: route.params.id,
+        },
       });
     }
   };
+
   const handleDeletePress = () => {
     Alert.alert(t('deleteModal.title'), t('deleteModal.description'), [
       {
@@ -87,11 +96,11 @@ const SpotDetails = ({
 
   return (
     <ScreenContainer>
-      <SkeletonLoader isActive={isLoading}>
-        <View style={[gutters.paddingHorizontal_16]}>
-          {deleteMutation?.isError ? (
-            <Message type="error" message={t('errors.delete')} />
-          ) : null}
+      <View style={[gutters.paddingHorizontal_16, layout.flex_1]}>
+        {deleteMutation?.isError ? (
+          <Message type="error" message={t('errors.delete')} />
+        ) : null}
+        <SkeletonLoader isActive={isLoading}>
           <Text
             style={[
               fonts.nationalBold,
@@ -103,8 +112,38 @@ const SpotDetails = ({
           >
             {data ? data.name : t('errors.notfound')}
           </Text>
-        </View>
-      </SkeletonLoader>
+          <View
+            style={[
+              layout.row,
+              layout.itemsCenter,
+              gutters.marginTop_32,
+              gutters.marginBottom_16,
+            ]}
+          >
+            <Text
+              style={[fonts.text_white, fonts.nationalLight, fonts.font_24]}
+            >
+              {data?.description}
+            </Text>
+          </View>
+          <ScrollView
+            refreshControl={
+              <RefreshControl
+                refreshing={isLoading}
+                onRefresh={handleRefresh}
+              />
+            }
+          >
+            <View style={gutters.marginBottom_32}>
+              {data?.supplies?.map(({ name, marque, id }) => (
+                <View key={`supply-${id}`} style={gutters.marginVertical_8}>
+                  <MenuItem title={name} subtitle={marque} />
+                </View>
+              ))}
+            </View>
+          </ScrollView>
+        </SkeletonLoader>
+      </View>
     </ScreenContainer>
   );
 };
