@@ -2,7 +2,7 @@ import firestore from '@react-native-firebase/firestore';
 import { SupplyPayload } from '@/services/schemas/supplies';
 
 const createSupplyInSpot = async (payload: {
-  id: string;
+  spotId: string;
   data: SupplyPayload;
 }) => {
   try {
@@ -12,7 +12,7 @@ const createSupplyInSpot = async (payload: {
 
     const response = await firestore()
       .collection('spots')
-      .doc(payload.id)
+      .doc(payload.spotId)
       .update({
         supplies: firestore.FieldValue.arrayUnion(documentRef),
       });
@@ -23,6 +23,19 @@ const createSupplyInSpot = async (payload: {
   }
 };
 
+const getSupplyFromBarCode = async (barCode: string) => {
+  const response = await fetch(
+    `https://world.openfoodfacts.org/api/v2/product/${barCode}.json`
+  );
+  console.log('response status', response.status, typeof response.status);
+  const data = await response.json();
+  if (data.status === 0) {
+    return Promise.reject('not found');
+  }
+  return Promise.resolve(data);
+};
+
 export default {
   createSupplyInSpot,
+  getSupplyFromBarCode,
 };

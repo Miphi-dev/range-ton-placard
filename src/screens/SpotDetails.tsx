@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Alert,
   RefreshControl,
@@ -22,11 +22,16 @@ import { ApplicationPrivateScreenProps } from 'types/navigation';
 // Services
 import SpotsService from '@/services/SpotsService';
 import { useFocusEffect } from '@react-navigation/native';
+import ScannerModal from '@/components/organisms/ScannerModal/ScannerModal';
 
 const SpotDetails = ({
   route,
   navigation,
 }: ApplicationPrivateScreenProps<'SpotDetails'>) => {
+  // local state
+  const [addSupplyModal, setaddSupplyModal] = useState(false);
+
+  //hooks
   const { layout, gutters, fonts, backgrounds } = useTheme();
   const { t } = useTranslation(['spotDetails']);
 
@@ -57,7 +62,7 @@ const SpotDetails = ({
           },
         ],
       },
-    },
+    }
   );
 
   const deleteMutation = useMutation(SpotsService.deleteSpot);
@@ -91,11 +96,18 @@ const SpotDetails = ({
     ]);
   };
 
+  const handleGoToForm = () =>
+    navigation.navigate('SupplyForm', {
+      spotId: route.params.id,
+    });
+
+  const openaddSupplyModal = () => setaddSupplyModal(true);
+
   //effects
   useFocusEffect(
     useCallback(() => {
       refetch();
-    }, []),
+    }, [])
   );
 
   useEffect(() => {
@@ -201,11 +213,7 @@ const SpotDetails = ({
                 borderRadius: 80,
               },
             ]}
-            onPress={() =>
-              navigation.navigate('SupplyForm', {
-                spotId: route.params.id,
-              })
-            }
+            onPress={openaddSupplyModal}
           >
             <Text
               style={[
@@ -221,6 +229,13 @@ const SpotDetails = ({
           </TouchableOpacity>
         </SkeletonLoader>
       </View>
+      <ScannerModal
+        handleAddingManually={handleGoToForm}
+        isVisible={addSupplyModal}
+        close={() => setaddSupplyModal(false)}
+        spotId={route.params.id}
+        onSuccess={refetch}
+      />
     </ScreenContainer>
   );
 };
