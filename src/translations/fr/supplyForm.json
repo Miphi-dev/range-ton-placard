@@ -25,5 +25,14 @@
       "create": "\uD83E\uDD6B Produit créé",
       "update": "\uD83E\uDD6B Produit modifié"
     }
+  },
+  "addSupplyModal": {
+    "manual": "\uD83D\uDD90\uFE0F  Ajouter manuellement",
+    "scan": "\uD83D\uDCF7  Scanner un article",
+    "permissions": {
+      "title": "Ah c'est malin ! 👏",
+      "description": "Si tu nous autorises pas à utiliser ta caméra on va pas pouvoir scanner tes articles ... Comme t'as fait ta mauvaise tête maintenant tu dois aller dans le settings de ton téléphone pour réparer ça ! "
+    },
+    "error": "Produit introuvable, tu vas devoir l'ajouter manuellement \uD83E\uDD72"
   }
 }
