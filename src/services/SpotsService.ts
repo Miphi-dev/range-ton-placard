@@ -37,9 +37,20 @@ const createSpot = async (data: SpotPayload) => {
     return Promise.reject(e);
   }
 };
+
+const deleteSpot = async (id: string) => {
+  try {
+    const response = await firestore().collection('spots').doc(id).delete();
+    return Promise.resolve(response);
+  } catch (e) {
+    return Promise.reject(e);
+  }
+};
+
 export default {
   getSpots,
   createSpot,
+  deleteSpot,
 };
 
 // export const supplySchema = z.object({
