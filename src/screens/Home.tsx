@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, ScrollView, Text, View } from 'react-native';
+import { Alert, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 // components
 import ScreenContainer from '@/components/templates/ScreenContainer';
 import Button from '@/components/atoms/Button/Button';
@@ -10,6 +10,7 @@ import useTheme from '@/theme/useTheme';
 import { useTranslation } from 'react-i18next';
 // services
 import AuthenticationService from '@/services/AuthenticationService';
+import { ApplicationPrivateScreenProps } from 'types/navigation';
 
 const spots = [
   {
@@ -70,8 +71,7 @@ const spots = [
     description: 'Les choses qui se mettent dans les gateaux',
   },
 ];
-
-const Home = () => {
+const Home = ({ navigation }: ApplicationPrivateScreenProps<'Home'>) => {
   const { fonts, gutters, layout } = useTheme();
   const { t } = useTranslation(['home']);
 
@@ -92,6 +92,8 @@ const Home = () => {
         style: 'cancel',
       },
     ]);
+
+  const handleAddSpot = () => navigation.navigate('SpotForm');
 
   return (
     <ScreenContainer>
@@ -123,17 +125,28 @@ const Home = () => {
           />
         </View>
         {/*spots section*/}
-        <Text
+        <View
           style={[
-            fonts.text_white,
-            fonts.nationalLight,
-            fonts.font_24,
+            layout.row,
+            layout.itemsCenter,
             gutters.marginTop_32,
             gutters.marginBottom_16,
           ]}
         >
-          {t('spotList')}
-        </Text>
+          <Text style={[fonts.text_white, fonts.nationalLight, fonts.font_24]}>
+            {t('spotList')}
+          </Text>
+          <TouchableOpacity
+            onPress={handleAddSpot}
+            style={[gutters.marginLeft_16, { marginTop: -5 }]}
+          >
+            <Text
+              style={[fonts.nationalLight, fonts.text_white, fonts.font_40]}
+            >
+              +
+            </Text>
+          </TouchableOpacity>
+        </View>
         <ScrollView>
           <View style={gutters.marginBottom_32}>
             {spots?.map(({ name, description }, index) => (

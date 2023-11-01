@@ -4,10 +4,12 @@ import {
   HeaderStyleInterpolators,
 } from '@react-navigation/stack';
 
-import { ApplicationStackParamList } from 'types/navigation';
+import { ApplicationPrivateStackParamList } from 'types/navigation';
+// Screens
 import Home from '@/screens/Home';
+import SpotForm from '@/screens/SpotForm';
 
-const Stack = createStackNavigator<ApplicationStackParamList>();
+const Stack = createStackNavigator<ApplicationPrivateStackParamList>();
 
 const MainNavigator = () => {
   return (
@@ -26,6 +28,7 @@ const MainNavigator = () => {
       }}
     >
       <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="SpotForm" component={SpotForm} />
     </Stack.Navigator>
   );
 };
