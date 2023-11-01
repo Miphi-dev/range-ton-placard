@@ -37,7 +37,7 @@ const Button = ({
       <LinearGradient
         style={
           type === 'gradient'
-            ? [style, gutters.paddingVertical_16, borders.rounded_16]
+            ? [gutters.paddingVertical_16, style, borders.rounded_16]
             : [borders.rounded_16]
         }
         start={{ x: 1, y: 1 }}

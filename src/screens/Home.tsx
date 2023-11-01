@@ -132,10 +132,10 @@ const Home = ({ navigation }: ApplicationPrivateScreenProps<'Home'>) => {
             }
           >
             <View style={gutters.marginBottom_32}>
-              {data?.map(({ name, description }, index) => (
+              {data?.map(({ name, description, id }, index) => (
                 <View key={`spot-${index}`} style={gutters.marginVertical_8}>
                   <MenuItem
-                    onPress={() => handleSpotPress('12345')}
+                    onPress={() => handleSpotPress(id)}
                     title={name}
                     subtitle={description}
                   />

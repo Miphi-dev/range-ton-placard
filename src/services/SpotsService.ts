@@ -19,11 +19,25 @@ const getSpots = async () => {
     const spotSnapshots = await firestore().collection<SpotDoc>('spots').get();
     const spots: Spot[] = [];
 
-    spotSnapshots.forEach(spotRef => {
+    spotSnapshots.forEach((spotRef) => {
       spots.push({ ...spotRef.data(), id: spotRef.id });
     });
 
     return Promise.resolve(spots.sort((a, b) => a.name.localeCompare(b.name)));
+  } catch (e) {
+    return Promise.reject(e);
+  }
+};
+
+const getSpot = async (id: string) => {
+  try {
+    const spotSnapshot = await firestore()
+      .collection<SpotDoc>('spots')
+      .doc(id)
+      .get();
+    const spot = spotSnapshot.data();
+
+    return Promise.resolve(spot);
   } catch (e) {
     return Promise.reject(e);
   }
@@ -40,6 +54,7 @@ const createSpot = async (data: SpotPayload) => {
 export default {
   getSpots,
   createSpot,
+  getSpot,
 };
 
 // export const supplySchema = z.object({
