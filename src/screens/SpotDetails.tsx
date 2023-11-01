@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react';
-import { Text, View } from 'react-native';
+import { Alert, Text, View } from 'react-native';
 // Components
 import ScreenContainer from '@/components/templates/ScreenContainer';
 // Hooks
 import useTheme from '@/theme/useTheme';
 import { useTranslation } from 'react-i18next';
 import { ApplicationPrivateScreenProps } from 'types/navigation';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import SpotsService from '@/services/SpotsService';
 import SkeletonLoader from '@/components/atoms/SkeletonLoader/SkeletonLoader';
 import Button from '@/components/atoms/Button/Button';
+import Message from '@/components/atoms/Message/Message';
 // Services
 
 const SpotDetails = ({
@@ -19,7 +20,7 @@ const SpotDetails = ({
   const { fonts, layout, gutters } = useTheme();
   const { t } = useTranslation(['spotDetails']);
 
-  console.log('PARAMS', route.params.id);
+  // queries
   const { isLoading, data } = useQuery(
     ['getOneSpot', route.params.id],
     () => SpotsService.getSpot(route.params.id),
@@ -27,7 +28,27 @@ const SpotDetails = ({
       enabled: !!route.params.id,
     }
   );
+  const deleteMutation = useMutation(SpotsService.deleteSpot);
 
+  //methods
+  const handleEditPress = () => {
+    navigation.navigate('SpotForm');
+  };
+  const handleDeletePress = () => {
+    Alert.alert(t('deleteModal.title'), t('deleteModal.description'), [
+      {
+        text: t('deleteModal.actions.ok'),
+        onPress: () => deleteMutation.mutate(route.params.id),
+        style: 'default',
+      },
+      {
+        text: t('deleteModal.actions.cancel'),
+        style: 'cancel',
+      },
+    ]);
+  };
+
+  //effects
   useEffect(() => {
     navigation.setOptions({
       headerTitle: data ? data.name : t('errors.notfound'),
@@ -35,14 +56,16 @@ const SpotDetails = ({
         <View style={[layout.row, gutters.marginRight_8]}>
           <View style={[gutters.marginRight_8]}>
             <Button
-              onPress={() => console.log('GO TO EDIT PAGE')}
+              disabled={!data}
+              onPress={handleEditPress}
               label={t('actions.edit')}
               type={'outline'}
               style={{ paddingVertical: 10, paddingHorizontal: 8 }}
             />
           </View>
           <Button
-            onPress={() => console.log('HANDLE DELETE')}
+            disabled={!data}
+            onPress={handleDeletePress}
             label={t('actions.delete')}
             type={'outline'}
             style={{ paddingVertical: 10, paddingHorizontal: 8 }}
@@ -52,9 +75,19 @@ const SpotDetails = ({
     });
   }, [data]);
 
+  useEffect(() => {
+    if (deleteMutation.isSuccess) {
+      navigation.navigate('Home');
+    }
+  }, [deleteMutation.isSuccess]);
+
   return (
     <ScreenContainer>
-      <SkeletonLoader isActive={isLoading} />
+      <SkeletonLoader isActive={isLoading}>
+        {deleteMutation?.isError ? (
+          <Message type="error" message={t('errors.delete')} />
+        ) : null}
+      </SkeletonLoader>
     </ScreenContainer>
   );
 };
