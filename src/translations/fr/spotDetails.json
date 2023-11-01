@@ -1,3 +1,9 @@
 {
-  "pageTitle": "Coucou"
+  "actions": {
+    "edit": "✏\uFE0F",
+    "delete": "\uD83D\uDDD1\uFE0F"
+  },
+  "errors": {
+    "notfound": "Emplacement introuvable"
+  }
 }

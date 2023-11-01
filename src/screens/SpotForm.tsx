@@ -27,7 +27,7 @@ const SpotForm = ({
   const { t } = useTranslation(['spotForm', 'navigation']);
   const { showToast } = useToast();
 
-    const {
+  const {
     control,
     handleSubmit,
     formState: { isValid },
