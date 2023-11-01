@@ -18,7 +18,7 @@ const colors = {
 
 export const config = {
   fonts: {
-    sizes: [8, 16, 24, 32, 40],
+    sizes: [12, 16, 24, 32, 40],
     colors,
   },
   gutters: [8, 16, 24, 32, 40],
