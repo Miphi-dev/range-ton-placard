@@ -66,4 +66,7 @@ export default {
   right0: {
     right: 0,
   },
+  z1: {
+    zIndex: 1,
+  },
 } as const satisfies Record<string, ViewStyle>;
