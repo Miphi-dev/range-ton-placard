@@ -37,8 +37,8 @@
   },
   "similarSuppliesModal": {
     "loading": "Chargement des produits similaires ...",
-    "title": "👮 Attention à se que tu fais !",
-    "description": "Nous avons trouvé des produits suspects dans ton sac. Il semble que des produits similaires existes déjà. Vérifie bien que tu range le produit au bon endroit ou que tu ne l'a pas déjà renseigné.",
+    "title": "👮 Attention à ce que tu fais !",
+    "description": "Nous avons trouvé des produits suspects dans ton sac! Il semble que des produits similaires existent déjà. Vérifie bien que tu ranges le produit au bon endroit ou que tu ne l'as pas déjà renseigné.",
     "action": {
       "add": "Valider",
       "cancel": "Annuler"

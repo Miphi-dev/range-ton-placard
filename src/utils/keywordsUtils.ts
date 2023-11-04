@@ -9,7 +9,6 @@ const normalizeString = (str: string) => {
 
 const createKeywords = (sentence: string) => {
   const normalized = normalizeString(sentence);
-  console.log(normalized);
   const words = normalized.split(' ');
 
   return words.reduce((acc, word) => {

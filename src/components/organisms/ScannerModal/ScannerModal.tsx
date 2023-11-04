@@ -13,7 +13,7 @@ import FloatingButton from '@/components/atoms/FloatingButton/FloatingButton';
 // hooks
 import useTheme from '@/theme/useTheme';
 import { useTranslation } from 'react-i18next';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import useToast from '@/hooks/useToast';
 // services
 import SuppliesService from '@/services/SuppliesService';
@@ -22,16 +22,14 @@ import { SupplyPayload } from '@/services/schemas/supplies';
 
 type Props = {
   handleAddingManually: () => unknown;
-  onSuccess: () => unknown;
+  onSuccess: (supply: Partial<SupplyPayload>) => unknown;
   close: () => unknown;
   isVisible: boolean;
-  spotId: string;
 };
 const ScannerModal = ({
   handleAddingManually,
   isVisible,
   close,
-  spotId,
   onSuccess,
 }: Props) => {
   // local states
@@ -57,8 +55,6 @@ const ScannerModal = ({
       enabled: !!currentCode,
     }
   );
-
-  const createSupplyMutation = useMutation(SuppliesService.createSupplyInSpot);
 
   const codeScanner = useCodeScanner({
     codeTypes: ['qr', 'ean-13'],
@@ -90,35 +86,23 @@ const ScannerModal = ({
   // effects
   useEffect(() => {
     if (getSupplyInfoQuery?.data?.product) {
-      const supply: SupplyPayload = {
-        name: getSupplyInfoQuery.data.product.generic_name_fr || '',
-        marque: getSupplyInfoQuery.data.product.brands || '',
+      const supply: Partial<SupplyPayload> = {
+        name: getSupplyInfoQuery.data.product.product_name,
+        marque: getSupplyInfoQuery.data.product.brands,
       };
-      createSupplyMutation.mutate({
-        spotId,
-        data: supply,
-      });
+      onSuccess(supply);
     }
     setcurrentCode('');
   }, [getSupplyInfoQuery?.data]);
 
   useEffect(() => {
-    if (createSupplyMutation.isSuccess) {
-      onSuccess();
-      close();
-      setIsScannerOpen(false);
-      showToast(t('form.success.create'));
-    }
-  }, [createSupplyMutation.isSuccess]);
-
-  useEffect(() => {
-    if (getSupplyInfoQuery.isError || createSupplyMutation.isError) {
+    if (getSupplyInfoQuery.isError) {
       showToast(t('addSupplyModal.error'), 'error');
       setcurrentCode('');
       close();
       setIsScannerOpen(false);
     }
-  }, [getSupplyInfoQuery.isError, createSupplyMutation.isError]);
+  }, [getSupplyInfoQuery.isError]);
 
   return (
     <>
@@ -145,7 +129,7 @@ const ScannerModal = ({
         isVisible={isScannerOpen}
       >
         <View style={[layout.fullHeight, backgrounds.gray200]}>
-          {getSupplyInfoQuery.isFetching || createSupplyMutation.isLoading ? (
+          {getSupplyInfoQuery.isFetching ? (
             <ActivityIndicator
               color={backgrounds.purple500.backgroundColor}
               style={[
@@ -163,10 +147,7 @@ const ScannerModal = ({
             <Camera
               style={layout.flex_1}
               device={device}
-              isActive={
-                !getSupplyInfoQuery.isFetching &&
-                !createSupplyMutation.isLoading
-              }
+              isActive={!getSupplyInfoQuery.isFetching}
               codeScanner={codeScanner}
             />
           ) : null}

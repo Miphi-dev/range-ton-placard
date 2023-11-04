@@ -16,7 +16,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { useFocusEffect } from '@react-navigation/native';
 //Types
 import { ApplicationPrivateScreenProps } from 'types/navigation';
-import { Supply } from '@/services/schemas/supplies';
+import { Supply, SupplyPayload } from '@/services/schemas/supplies';
 // Services
 import SpotsService from '@/services/SpotsService';
 import SuppliesService from '@/services/SuppliesService';
@@ -118,10 +118,11 @@ const SpotDetails = ({
     ]);
   };
 
-  const handleGoToForm = () => {
+  const handleGoToForm = (defaultValues?: Partial<SupplyPayload>) => {
     setaddSupplyModal(false);
     navigation.navigate('SupplyForm', {
       spotId: route.params.id,
+      defaultValues,
     });
   };
 
@@ -272,8 +273,7 @@ const SpotDetails = ({
         handleAddingManually={handleGoToForm}
         isVisible={addSupplyModal}
         close={() => setaddSupplyModal(false)}
-        spotId={route.params.id}
-        onSuccess={refetch}
+        onSuccess={handleGoToForm}
       />
     </ScreenContainer>
   );
