@@ -37,7 +37,7 @@ const SearchSupplyModal = ({ isVisible, close }: Props) => {
 
   return (
     <ModalComponent isVisible={isVisible} close={close} direction="top" fill>
-      <View style={[layout.fullHeight]}>
+      <View style={[layout.fullHeight, gutters.padding_16]}>
         <SearchSupplies setValue={handleFilteredSupplies} />
         <ScrollView style={[gutters.marginTop_16]}>
           <View style={[gutters.marginBottom_40, { marginBottom: 110 }]}>

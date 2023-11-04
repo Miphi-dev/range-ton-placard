@@ -1,6 +1,13 @@
 import firestore from '@react-native-firebase/firestore';
-import { Supply, SupplyDoc, SupplyPayload } from '@/services/schemas/supplies';
+import {
+  Supply,
+  SupplyDoc,
+  SupplyPayload,
+  SupplyWithSpot,
+} from '@/services/schemas/supplies';
 import keywordsUtils from '@/utils/keywordsUtils';
+import KeywordsUtils from '@/utils/keywordsUtils';
+import { SpotDoc } from '@/services/schemas/spots';
 
 const createSupplyInSpot = async (payload: {
   spotId: string;
@@ -24,6 +31,54 @@ const createSupplyInSpot = async (payload: {
       });
 
     return Promise.resolve(response);
+  } catch (e) {
+    return Promise.reject(e);
+  }
+};
+
+const getSimilarSupplies = async (name: Supply['name']) => {
+  const keywords = keywordsUtils.createKeywords(name);
+
+  let similarKeywords = keywords;
+  if (keywords[keywords.length - 1].length <= 7) {
+    similarKeywords = [keywords[keywords.length - 1]];
+  } else {
+    // take the last 3 keywords
+    similarKeywords = keywords.slice(keywords.length - 3, keywords.length);
+  }
+  try {
+    const response = await firestore()
+      .collection<SupplyDoc>('supplies')
+      .where('keywords', 'array-contains-any', similarKeywords)
+      .get();
+
+    const similarSupplies: SupplyWithSpot[] = [];
+
+    for (const doc of response.docs) {
+      if (
+        KeywordsUtils.jaccardSimilarity(keywords, doc.data().keywords) >= 0.5
+      ) {
+        const data = doc.data();
+        const spotSnapshot = await firestore()
+          .collection<SpotDoc>('spots')
+          .doc(data.spotId)
+          .get();
+
+        similarSupplies.push({
+          ...data,
+          id: doc.id,
+          spot: {
+            id: data.spotId,
+            name: spotSnapshot.data()?.name || '',
+            description: spotSnapshot.data()?.description || '',
+            keywords: spotSnapshot.data()?.keywords || [],
+          },
+        });
+      }
+    }
+
+    console.log(similarSupplies);
+    return Promise.resolve(similarSupplies);
   } catch (e) {
     return Promise.reject(e);
   }
@@ -100,6 +155,7 @@ const searchSupplies = async (payload: {
 
 export default {
   createSupplyInSpot,
+  getSimilarSupplies,
   getSupplyFromBarCode,
   deleteSupplyInSpot,
   searchSupplies,

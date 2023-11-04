@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Alert,
   RefreshControl,
@@ -23,6 +23,7 @@ import SpotsService from '@/services/SpotsService';
 import { useFocusEffect } from '@react-navigation/native';
 import SearchSupplyModal from '@/components/organisms/SearchSupplyModal/SearchSupplyModal';
 import FloatingButton from '@/components/atoms/FloatingButton/FloatingButton';
+import SuppliesService from '@/services/SuppliesService';
 
 const Home = ({ navigation }: ApplicationPrivateScreenProps<'Home'>) => {
   const { fonts, gutters, layout } = useTheme();
@@ -59,6 +60,10 @@ const Home = ({ navigation }: ApplicationPrivateScreenProps<'Home'>) => {
         style: 'cancel',
       },
     ]);
+
+  useEffect(() => {
+    SuppliesService.getSimilarSupplies('cola');
+  }, []);
 
   const handleAddSpot = () => navigation.navigate('SpotForm');
   const handleRefresh = () => refetch();
