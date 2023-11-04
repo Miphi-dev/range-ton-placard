@@ -1,12 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import {
-  Alert,
-  RefreshControl,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Alert, RefreshControl, ScrollView, Text, View } from 'react-native';
 // Components
 import ScreenContainer from '@/components/templates/ScreenContainer';
 import SkeletonLoader from '@/components/atoms/SkeletonLoader/SkeletonLoader';
@@ -15,6 +8,7 @@ import Message from '@/components/atoms/Message/Message';
 import MenuItem from '@/components/atoms/MenuItem/MenuItem';
 import ScannerModal from '@/components/organisms/ScannerModal/ScannerModal';
 import SearchSupplies from '@/components/molecules/SearchSupplies/SearchSupplies';
+import FloatingButton from '@/components/atoms/FloatingButton/FloatingButton';
 // Hooks
 import useTheme from '@/theme/useTheme';
 import { useTranslation } from 'react-i18next';
@@ -35,7 +29,7 @@ const SpotDetails = ({
   const [addSupplyModal, setaddSupplyModal] = useState(false);
 
   //hooks
-  const { layout, gutters, fonts, backgrounds } = useTheme();
+  const { layout, gutters, fonts } = useTheme();
   const { t } = useTranslation(['spotDetails']);
 
   const [searchSupplies, setSearchSupplies] = useState<Supply[]>();
@@ -73,7 +67,7 @@ const SpotDetails = ({
           },
         ],
       },
-    },
+    }
   );
 
   const deleteMutation = useMutation(SpotsService.deleteSpot);
@@ -124,16 +118,17 @@ const SpotDetails = ({
     ]);
   };
 
-  const handleGoToForm = () =>
+  const handleGoToForm = () => {
+    setaddSupplyModal(false);
     navigation.navigate('SupplyForm', {
       spotId: route.params.id,
     });
+  };
 
   const openAddSupplyModal = () => setaddSupplyModal(true);
 
   //memo
   const supplies = useMemo(() => {
-    console.log(searchSupplies);
     if (searchSupplies) {
       return searchSupplies;
     }
@@ -144,7 +139,7 @@ const SpotDetails = ({
   useFocusEffect(
     useCallback(() => {
       refetch();
-    }, []),
+    }, [])
   );
 
   useEffect(() => {
@@ -256,24 +251,7 @@ const SpotDetails = ({
             </View>
           </ScrollView>
 
-          <TouchableOpacity
-            style={[
-              layout.absolute,
-              layout.bottom0,
-              layout.right0,
-              gutters.marginBottom_24,
-              gutters.marginRight_8,
-              backgrounds.blue500,
-              layout.itemsCenter,
-              layout.justifyCenter,
-              {
-                height: 80,
-                width: 80,
-                borderRadius: 80,
-              },
-            ]}
-            onPress={openAddSupplyModal}
-          >
+          <FloatingButton onPress={openAddSupplyModal}>
             <Text
               style={[
                 fonts.text_white,
@@ -285,7 +263,7 @@ const SpotDetails = ({
             >
               +
             </Text>
-          </TouchableOpacity>
+          </FloatingButton>
         </SkeletonLoader>
       </View>
       <ScannerModal

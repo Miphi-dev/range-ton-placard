@@ -49,9 +49,8 @@ const deleteSupplyInSpot = async (payload: {
 
 const getSupplyFromBarCode = async (barCode: string) => {
   const response = await fetch(
-    `https://world.openfoodfacts.org/api/v2/product/${barCode}.json`,
+    `https://world.openfoodfacts.org/api/v2/product/${barCode}.json`
   );
-  console.log('response status', response.status, typeof response.status);
   const data = await response.json();
   if (data.status === 0) {
     return Promise.reject('not found');
@@ -59,25 +58,34 @@ const getSupplyFromBarCode = async (barCode: string) => {
   return Promise.resolve(data);
 };
 
-const searchSupplies = async (payload: { spotId: string; keyword: string }) => {
+const searchSupplies = async (payload: {
+  spotId?: string;
+  keyword: string;
+}) => {
   try {
-    let suppliesQuery = firestore()
-      .collection<SupplyDoc>('supplies')
-      .where('spotId', '==', payload.spotId);
+    let suppliesCollection = firestore().collection<SupplyDoc>('supplies');
+
+    let suppliesQuery = null;
+
+    if (payload.spotId) {
+      suppliesQuery = suppliesCollection.where('spotId', '==', payload.spotId);
+    }
 
     if (payload.keyword !== '') {
-      suppliesQuery = suppliesQuery.where(
+      suppliesQuery = suppliesCollection.where(
         'keywords',
         'array-contains',
-        payload.keyword,
+        payload.keyword
       );
     }
 
-    const suppliesSnapshot = await suppliesQuery.get();
+    const suppliesSnapshot = suppliesQuery
+      ? await suppliesQuery.get()
+      : await suppliesCollection.get();
 
     const supplies: Supply[] = [];
 
-    suppliesSnapshot.forEach(doc => {
+    suppliesSnapshot.forEach((doc) => {
       supplies.push({
         ...doc.data(),
         id: doc.id,
