@@ -5,7 +5,7 @@
   },
   "deleteModal": {
     "title": "\uD83D\uDE31 Es-tu sûr(e) de vouloir supprimer cet emplacement ?",
-    "description": "En cliquant sur valider c'est comme si tu jetais la boite par la fenêtre, il n'y aura pas de retour en arrière possible.",
+    "description": "En cliquant sur valider c'est comme si tu jetais la boite et son contenu par la fenêtre, il n'y aura pas de retour en arrière possible.",
     "actions": {
       "ok": "Valider",
       "cancel": "Annuler"

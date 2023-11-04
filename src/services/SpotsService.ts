@@ -14,7 +14,7 @@ const getSpots = async () => {
     const spotSnapshots = await firestore().collection<SpotDoc>('spots').get();
     const spots: Spot[] = [];
 
-    spotSnapshots.forEach(spotRef => {
+    spotSnapshots.forEach((spotRef) => {
       spots.push({ ...spotRef.data(), id: spotRef.id });
     });
 
@@ -36,13 +36,13 @@ const getSpot = async (id: string) => {
       FirebaseFirestoreTypes.DocumentSnapshot<SupplyDoc>
     >[] = [];
 
-    spot?.supplies.forEach(supply => {
+    spot?.supplies.forEach((supply) => {
       suppliesPromises.push(supply.get());
     });
 
     const foo = await Promise.all(suppliesPromises);
     const supplies = foo
-      .map(supply => {
+      .map((supply) => {
         const data = supply.data();
         const unknownSupply = {
           id: supply.id,
@@ -54,7 +54,7 @@ const getSpot = async (id: string) => {
         }
         return null;
       })
-      .filter(supply => supply !== null) as Supply[];
+      .filter((supply) => supply !== null) as Supply[];
 
     supplies.sort((a, b) => a.name.localeCompare(b.name));
 
@@ -93,6 +93,15 @@ const updateSpot = async (payload: {
 const deleteSpot = async (id: string) => {
   try {
     const response = await firestore().collection('spots').doc(id).delete();
+    const suppliesSnapshot = await firestore()
+      .collection('supplies')
+      .where('spotId', '==', id)
+      .get();
+
+    suppliesSnapshot.forEach((supplyRef) => {
+      supplyRef.ref.delete();
+    });
+
     return Promise.resolve(response);
   } catch (e) {
     return Promise.reject(e);
