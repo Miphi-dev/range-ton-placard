@@ -123,19 +123,21 @@ const ScannerModal = ({
   return (
     <>
       <ModalComponent isVisible={isVisible} close={close}>
-        <View style={[gutters.marginBottom_16]}>
-          <Button
-            onPress={handleScanSupply}
-            label={t('addSupplyModal.scan')}
-            type={'outline'}
-          />
-        </View>
-        <View style={[gutters.marginBottom_16]}>
-          <Button
-            onPress={handleAddingManually}
-            label={t('addSupplyModal.manual')}
-            type={'outline'}
-          />
+        <View style={[gutters.padding_16]}>
+          <View style={[gutters.marginBottom_16]}>
+            <Button
+              onPress={handleScanSupply}
+              label={t('addSupplyModal.scan')}
+              type={'outline'}
+            />
+          </View>
+          <View style={[gutters.marginBottom_16]}>
+            <Button
+              onPress={handleAddingManually}
+              label={t('addSupplyModal.manual')}
+              type={'outline'}
+            />
+          </View>
         </View>
       </ModalComponent>
       <ModalComponent

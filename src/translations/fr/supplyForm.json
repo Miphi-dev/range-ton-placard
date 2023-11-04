@@ -34,5 +34,14 @@
       "description": "Si tu nous autorises pas à utiliser ta caméra on va pas pouvoir scanner tes articles ... Comme t'as fait ta mauvaise tête maintenant tu dois aller dans le settings de ton téléphone pour réparer ça ! "
     },
     "error": "Produit introuvable, tu vas devoir l'ajouter manuellement \uD83E\uDD72"
+  },
+  "similarSuppliesModal": {
+    "loading": "Chargement des produits similaires ...",
+    "title": "👮 Attention à se que tu fais !",
+    "description": "Nous avons trouvé des produits suspects dans ton sac. Il semble que des produits similaires existes déjà. Vérifie bien que tu range le produit au bon endroit ou que tu ne l'a pas déjà renseigné.",
+    "action": {
+      "add": "Valider",
+      "cancel": "Annuler"
+    }
   }
 }

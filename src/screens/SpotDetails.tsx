@@ -153,6 +153,7 @@ const SpotDetails = ({
               label={t('actions.edit')}
               type={'outline'}
               style={{ paddingVertical: 10, paddingHorizontal: 10 }}
+              fontStyles={fonts.font_12}
             />
           </View>
           <Button
@@ -161,6 +162,7 @@ const SpotDetails = ({
             label={t('actions.delete')}
             type={'outline'}
             style={{ paddingVertical: 10, paddingHorizontal: 10 }}
+            fontStyles={fonts.font_12}
           />
         </View>
       ),
