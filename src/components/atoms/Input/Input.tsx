@@ -1,4 +1,5 @@
 import React from 'react';
+// components
 import {
   StyleProp,
   Text,
@@ -7,9 +8,10 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import useTheme from '@/theme/useTheme';
 import { Controller, FieldValues, Path } from 'react-hook-form';
 import { Control } from 'react-hook-form/dist/types';
+// hooks
+import useTheme from '@/theme/useTheme';
 
 type Props<V extends FieldValues> = Omit<
   TextInputProps,
@@ -34,7 +36,7 @@ function Input<V extends FieldValues>({
 
   const customOnChange = (
     value: string,
-    callback: (value: string) => unknown,
+    callback: (value: string) => unknown
   ) => {
     onChangeText?.(value);
     callback(value);
@@ -61,7 +63,7 @@ function Input<V extends FieldValues>({
             value={value}
             onChangeText={
               onChangeText
-                ? v => customOnChange(v, controllerOnChange)
+                ? (v) => customOnChange(v, controllerOnChange)
                 : controllerOnChange
             }
             selectionColor={backgrounds.white.backgroundColor}

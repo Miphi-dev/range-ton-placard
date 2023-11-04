@@ -13,7 +13,7 @@ import keywordsUtils from '@/utils/keywordsUtils';
 import { Supply } from '@/services/schemas/supplies';
 
 type Props = {
-  spotId: string;
+  spotId?: string;
   setValue: (supplies: Supply[] | undefined) => unknown;
 };
 
@@ -36,17 +36,14 @@ const SearchSupplies = ({ spotId, setValue }: Props) => {
         spotId: spotId,
         keyword: keywordsUtils.normalizeString(debouncedSearch),
       });
-    },
-    {
-      enabled: !!debouncedSearch,
-    },
+    }
   );
 
   useEffect(() => {
     if (isSuccess) {
       setValue(searchSupplies);
     }
-  }, [isSuccess, setValue]);
+  }, [isSuccess, searchSupplies, setValue]);
 
   useEffect(() => {
     if (debouncedSearch === '') {
@@ -67,6 +64,10 @@ const SearchSupplies = ({ spotId, setValue }: Props) => {
       onChangeText={handleChange}
     />
   );
+};
+
+SearchSupplies.defaultProps = {
+  spotId: undefined,
 };
 
 export default SearchSupplies;
