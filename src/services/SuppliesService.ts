@@ -76,8 +76,6 @@ const getSimilarSupplies = async (name: Supply['name']) => {
         });
       }
     }
-
-    console.log(similarSupplies);
     return Promise.resolve(similarSupplies);
   } catch (e) {
     return Promise.reject(e);

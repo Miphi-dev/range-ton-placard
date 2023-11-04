@@ -42,6 +42,7 @@ const SupplyForm = ({
   } = useForm<SupplyPayload>({
     resolver: zodResolver(supplyPayloadSchema),
     mode: 'onChange',
+    defaultValues: route?.params?.defaultValues,
   });
 
   const createSupplyMutation = useMutation(SuppliesService.createSupplyInSpot);
