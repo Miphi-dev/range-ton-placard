@@ -146,11 +146,9 @@ export default {
 //           if (supplySchema.safeParse(data).success) {
 //             return supplySchema.parse(data);
 //           }
-//           console.log(data, supplySchema.safeParse(data).success);
 //           return null;
 //         })
 //         .filter(supply => supply !== null) as Supply[];
-//       console.log(supplies);
 //
 //       spots.push({
 //         ...spotDoc,

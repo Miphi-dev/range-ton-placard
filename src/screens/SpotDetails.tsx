@@ -129,7 +129,6 @@ const SpotDetails = ({
 
   //memo
   const supplies = useMemo(() => {
-    console.log(searchSupplies);
     if (searchSupplies) {
       return searchSupplies;
     }

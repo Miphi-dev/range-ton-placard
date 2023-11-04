@@ -25,7 +25,6 @@ const SearchSupplyModal = ({ isVisible, close }: Props) => {
   const [supplies, setSupplies] = useState<Supply[]>([]);
 
   const handleFilteredSupplies = (newSupplies: Supply[] | undefined) => {
-    console.log(newSupplies, supplies);
     if (newSupplies) {
       setSupplies(newSupplies);
     }
