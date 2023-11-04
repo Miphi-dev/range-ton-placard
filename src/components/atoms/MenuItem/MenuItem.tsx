@@ -15,7 +15,7 @@ const MenuItem = ({ title, subtitle, onPress, onLongPress }: Props) => {
 
   const getLocation = () => {
     const firstRand = Number.parseFloat(Math.random().toFixed(1));
-    return [firstRand, firstRand + 0.3, 1];
+    return [firstRand, Math.min(firstRand + 0.3, 1), 1];
   };
 
   return (
