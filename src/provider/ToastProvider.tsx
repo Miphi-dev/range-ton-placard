@@ -42,7 +42,7 @@ const ToastProvider = ({ children }: Props) => {
 
   const showToast = (
     newMessage: string,
-    newType: MessageProps['type'] = 'success',
+    newType: MessageProps['type'] = 'success'
   ) => {
     offset.value = -20;
 
@@ -68,9 +68,7 @@ const ToastProvider = ({ children }: Props) => {
         showToast,
       }}
     >
-      <View
-        style={[layout.relative, layout.flex_1, { backgroundColor: 'red' }]}
-      >
+      <View style={[layout.relative, layout.flex_1]}>
         <Animated.View
           style={[
             layout.absolute,
