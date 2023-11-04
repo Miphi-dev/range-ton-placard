@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { spotSchema } from '@/services/schemas/spots';
 
 export const supplySchema = z.object({
   id: z.string(),
@@ -18,3 +19,12 @@ export const supplyPayloadSchema = supplySchema.omit({
   keywords: true,
 });
 export type SupplyPayload = z.infer<typeof supplyPayloadSchema>;
+
+export const supplyWithSpotSchema = supplySchema
+  .omit({
+    spotId: true,
+  })
+  .extend({
+    spot: spotSchema,
+  });
+export type SupplyWithSpot = z.infer<typeof supplyWithSpotSchema>;

@@ -3,6 +3,7 @@ import {
   ActivityIndicator,
   StyleProp,
   Text,
+  TextStyle,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -17,6 +18,7 @@ type Props = {
   disabled?: boolean;
   type?: 'gradient' | 'outline';
   style?: StyleProp<ViewStyle> | undefined;
+  fontStyles?: StyleProp<TextStyle> | undefined;
 };
 
 const Button = ({
@@ -26,6 +28,7 @@ const Button = ({
   disabled,
   type,
   style,
+  fontStyles,
 }: Props) => {
   const { gutters, borders, backgrounds, fonts, layout } = useTheme();
   return (
@@ -70,7 +73,8 @@ const Button = ({
                 fonts.nationalBold,
                 fonts.uppercase,
                 fonts.text_white,
-                fonts.font_12,
+                fonts.font_16,
+                fontStyles,
               ]}
             >
               {label}
@@ -87,6 +91,7 @@ Button.defaultProps = {
   disabled: false,
   type: 'gradient',
   style: undefined,
+  fontStyles: undefined,
 };
 
 export default Button;

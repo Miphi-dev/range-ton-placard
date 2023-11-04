@@ -16,7 +16,7 @@ const ModalComponent = ({
   fill,
   direction,
 }: Props) => {
-  const { layout, gutters, backgrounds } = useTheme();
+  const { layout, backgrounds } = useTheme();
 
   return (
     <Modal animationType={'slide'} transparent visible={isVisible}>
@@ -40,8 +40,10 @@ const ModalComponent = ({
         />
         <View
           style={[
-            gutters.padding_16,
-            { marginTop: Platform.OS === 'ios' ? 60 : 10 },
+            direction === 'top' ? layout.justifyStart : layout.justifyEnd,
+            {
+              marginTop: Platform.OS === 'ios' ? 60 : 10,
+            },
           ]}
         >
           {children}
