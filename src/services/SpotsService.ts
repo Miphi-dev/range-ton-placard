@@ -20,7 +20,6 @@ const getSpots = async () => {
     spotSnapshots.forEach((spotRef) => {
       spots.push({ ...spotRef.data(), id: spotRef.id });
     });
-    console.log(spots);
     return Promise.resolve(spots.sort((a, b) => a.name.localeCompare(b.name)));
   } catch (e) {
     return Promise.reject(e);
