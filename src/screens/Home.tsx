@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   Alert,
   RefreshControl,
@@ -21,10 +21,15 @@ import { useTranslation } from 'react-i18next';
 import AuthenticationService from '@/services/AuthenticationService';
 import SpotsService from '@/services/SpotsService';
 import { useFocusEffect } from '@react-navigation/native';
+import SearchSupplyModal from '@/components/organisms/SearchSupplyModal/SearchSupplyModal';
+import FloatingButton from '@/components/atoms/FloatingButton/FloatingButton';
 
 const Home = ({ navigation }: ApplicationPrivateScreenProps<'Home'>) => {
   const { fonts, gutters, layout } = useTheme();
   const { t } = useTranslation(['home']);
+
+  const [searchSuppliesModalVisible, setSearchSuppliesModalVisible] =
+    useState(false);
 
   // Queries
   const logoutMutation = useMutation(AuthenticationService.logout);
@@ -65,11 +70,15 @@ const Home = ({ navigation }: ApplicationPrivateScreenProps<'Home'>) => {
   useFocusEffect(
     useCallback(() => {
       refetch();
-    }, []),
+    }, [])
   );
 
   return (
     <ScreenContainer>
+      <SearchSupplyModal
+        isVisible={searchSuppliesModalVisible}
+        close={() => setSearchSuppliesModalVisible(false)}
+      />
       <View style={[gutters.paddingHorizontal_16, layout.flex_1]}>
         {/*header*/}
         <View
@@ -131,7 +140,7 @@ const Home = ({ navigation }: ApplicationPrivateScreenProps<'Home'>) => {
               />
             }
           >
-            <View style={gutters.marginBottom_32}>
+            <View style={[gutters.marginBottom_32, { marginBottom: 110 }]}>
               {data?.map(({ name, description, id }, index) => (
                 <View key={`spot-${index}`} style={gutters.marginVertical_8}>
                   <MenuItem
@@ -143,6 +152,13 @@ const Home = ({ navigation }: ApplicationPrivateScreenProps<'Home'>) => {
               ))}
             </View>
           </ScrollView>
+          <FloatingButton onPress={() => setSearchSuppliesModalVisible(true)}>
+            <Text
+              style={[fonts.nationalRegular, fonts.font_32, fonts.text_gray500]}
+            >
+              🧐
+            </Text>
+          </FloatingButton>
         </SkeletonLoader>
       </View>
     </ScreenContainer>

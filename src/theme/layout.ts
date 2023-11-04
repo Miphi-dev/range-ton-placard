@@ -40,6 +40,9 @@ export default {
   justifyEnd: {
     justifyContent: 'flex-end',
   },
+  justifyStart: {
+    justifyContent: 'flex-start',
+  },
   /* Sizes Layouts */
   flex_1: {
     flex: 1,

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
+// components
 import ModalComponent from '@/components/molecules/Modal/ModalComponent';
-import { ActivityIndicator, Alert, View } from 'react-native';
+import { ActivityIndicator, Alert, Text, View } from 'react-native';
 import Button from '@/components/atoms/Button/Button';
 import {
   Camera,
@@ -8,12 +9,16 @@ import {
   useCameraPermission,
   useCodeScanner,
 } from 'react-native-vision-camera';
+import FloatingButton from '@/components/atoms/FloatingButton/FloatingButton';
+// hooks
 import useTheme from '@/theme/useTheme';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import SuppliesService from '@/services/SuppliesService';
-import { SupplyPayload } from '@/services/schemas/supplies';
 import useToast from '@/hooks/useToast';
+// services
+import SuppliesService from '@/services/SuppliesService';
+// types
+import { SupplyPayload } from '@/services/schemas/supplies';
 
 type Props = {
   handleAddingManually: () => unknown;
@@ -34,7 +39,7 @@ const ScannerModal = ({
   const [currentCode, setcurrentCode] = useState<string>();
   //hooks
   const { t } = useTranslation(['supplyForm']);
-  const { layout, gutters, backgrounds } = useTheme();
+  const { layout, gutters, backgrounds, fonts } = useTheme();
   const { hasPermission, requestPermission } = useCameraPermission();
   const device = useCameraDevice('back');
   const { showToast } = useToast();
@@ -163,6 +168,13 @@ const ScannerModal = ({
               codeScanner={codeScanner}
             />
           ) : null}
+          <FloatingButton onPress={() => setIsScannerOpen(false)}>
+            <Text
+              style={[fonts.nationalRegular, fonts.font_32, fonts.text_gray500]}
+            >
+              🚪
+            </Text>
+          </FloatingButton>
         </View>
       </ModalComponent>
     </>
