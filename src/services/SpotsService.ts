@@ -8,16 +8,19 @@ import {
   SpotWithSuppliesDoc,
 } from '@/services/schemas/spots';
 import { Supply, SupplyDoc, supplySchema } from '@/services/schemas/supplies';
+import collectionPaths from '@/services/collectionPaths';
 
 const getSpots = async () => {
   try {
-    const spotSnapshots = await firestore().collection<SpotDoc>('spots').get();
+    const spotSnapshots = await firestore()
+      .collection<SpotDoc>(collectionPaths.spotsPath)
+      .get();
     const spots: Spot[] = [];
 
     spotSnapshots.forEach((spotRef) => {
       spots.push({ ...spotRef.data(), id: spotRef.id });
     });
-
+    console.log(spots);
     return Promise.resolve(spots.sort((a, b) => a.name.localeCompare(b.name)));
   } catch (e) {
     return Promise.reject(e);
@@ -27,7 +30,7 @@ const getSpots = async () => {
 const getSpot = async (id: string) => {
   try {
     const spotSnapshot = await firestore()
-      .collection<SpotWithSuppliesDoc>('spots')
+      .collection<SpotWithSuppliesDoc>(collectionPaths.spotsPath)
       .doc(id)
       .get();
     const spot = spotSnapshot.data();
@@ -67,7 +70,7 @@ const getSpot = async (id: string) => {
 const createSpot = async (data: SpotPayload) => {
   try {
     const response = await firestore()
-      .collection('spots')
+      .collection(collectionPaths.spotsPath)
       .add({ ...data, supplies: [] });
     return Promise.resolve(response);
   } catch (e) {
@@ -81,7 +84,7 @@ const updateSpot = async (payload: {
 }) => {
   try {
     const response = await firestore()
-      .collection('spots')
+      .collection(collectionPaths.spotsPath)
       .doc(payload.id)
       .update(payload.data);
     return Promise.resolve(response);
@@ -92,9 +95,12 @@ const updateSpot = async (payload: {
 
 const deleteSpot = async (id: string) => {
   try {
-    const response = await firestore().collection('spots').doc(id).delete();
+    const response = await firestore()
+      .collection(collectionPaths.spotsPath)
+      .doc(id)
+      .delete();
     const suppliesSnapshot = await firestore()
-      .collection('supplies')
+      .collection(collectionPaths.suppliesPath)
       .where('spotId', '==', id)
       .get();
 
