@@ -31,8 +31,17 @@ const MainNavigator = () => {
     return null;
   }
 
+  const linking = {
+    prefixes: ['rangetonplacard://'],
+    config: {
+      screens: {
+        SpotDetails: 'spot/:id',
+      },
+    },
+  };
+
   return (
-    <NavigationContainer theme={navigationTheme}>
+    <NavigationContainer linking={linking} theme={navigationTheme}>
       <StatusBar
         barStyle={'light-content'}
         backgroundColor={backgrounds.purple900.backgroundColor}
