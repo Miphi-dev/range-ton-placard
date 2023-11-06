@@ -75,4 +75,7 @@ export default {
   z1: {
     zIndex: 1,
   },
+  z10: {
+    zIndex: 10,
+  },
 } as const satisfies Record<string, ViewStyle>;
