@@ -68,13 +68,13 @@ const ToastProvider = ({ children }: Props) => {
         showToast,
       }}
     >
-      <View style={[layout.relative, layout.flex_1]}>
+      <View style={[layout.relative, layout.flex_1, layout.z10]}>
         <Animated.View
           style={[
             layout.absolute,
             layout.fullWidth,
             gutters.padding_8,
-            layout.z1,
+            layout.z10,
             layout.bottom0,
             layout.itemsCenter,
             animatedStyles,
