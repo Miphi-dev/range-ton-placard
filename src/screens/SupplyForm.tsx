@@ -11,7 +11,7 @@ import SimilarSuppliesModal from '@/components/organisms/SimilarSuppliesModal/Si
 // Hooks
 import useTheme from '@/theme/useTheme';
 import { useTranslation } from 'react-i18next';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import useToast from '@/hooks/useToast';
 // Services
@@ -34,6 +34,8 @@ const SupplyForm = ({
   const [hasSimilarSuppliesModaleVisible, setHasSimilarSuppliesModaleVisible] =
     useState(false);
 
+  const [nameToCheck, setNameToCheck] = useState('');
+
   const {
     control,
     handleSubmit,
@@ -44,6 +46,14 @@ const SupplyForm = ({
     mode: 'onChange',
     defaultValues: route?.params?.defaultValues,
   });
+
+  const similarSuppliesQuery = useQuery(
+    ['similarSupplies', nameToCheck],
+    () => SuppliesService.getSimilarSupplies(nameToCheck),
+    {
+      enabled: !!nameToCheck,
+    }
+  );
 
   const createSupplyMutation = useMutation(SuppliesService.createSupplyInSpot);
 
@@ -57,6 +67,16 @@ const SupplyForm = ({
       showToast(t('form.success.create'));
     }
   }, [createSupplyMutation.isSuccess]);
+
+  useEffect(() => {
+    if (similarSuppliesQuery.isSuccess) {
+      if (similarSuppliesQuery.data.length === 0) {
+        handleSubmit(onSubmit)();
+      } else {
+        setHasSimilarSuppliesModaleVisible(true);
+      }
+    }
+  }, [similarSuppliesQuery.data]);
 
   return (
     <>
@@ -131,20 +151,22 @@ const SupplyForm = ({
           <View>
             <Button
               disabled={!isValid}
-              onPress={() => setHasSimilarSuppliesModaleVisible(true)}
+              onPress={() => setNameToCheck(getValues('name'))}
               label={t('form.action.new.label')}
               type={'outline'}
             />
           </View>
         </View>
       </ScreenContainer>
-      <SimilarSuppliesModal
-        handleAddSupply={handleSubmit(onSubmit)}
-        spotId={route.params.spotId}
-        name={getValues('name')}
-        isVisible={hasSimilarSuppliesModaleVisible}
-        close={() => setHasSimilarSuppliesModaleVisible(false)}
-      />
+      {hasSimilarSuppliesModaleVisible && similarSuppliesQuery.data && (
+        <SimilarSuppliesModal
+          similarSupplies={similarSuppliesQuery.data}
+          handleAddSupply={handleSubmit(onSubmit)}
+          spotId={route.params.spotId}
+          isVisible={hasSimilarSuppliesModaleVisible}
+          close={() => setHasSimilarSuppliesModaleVisible(false)}
+        />
+      )}
     </>
   );
 };
