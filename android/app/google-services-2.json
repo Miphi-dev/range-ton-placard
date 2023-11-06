@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "822791382195",
+    "project_id": "rangetonplacard-25785",
+    "storage_bucket": "rangetonplacard-25785.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:822791382195:android:0611419e6b011658fbfcc6",
+        "android_client_info": {
+          "package_name": "com.rangetonplacard"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAg18pXLaBRWXUUHpR7C3Vq4Z9S-m5Dp6E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
+

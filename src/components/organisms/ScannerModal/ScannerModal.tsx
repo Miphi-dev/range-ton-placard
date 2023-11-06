@@ -59,6 +59,8 @@ const ScannerModal = ({
   const codeScanner = useCodeScanner({
     codeTypes: ['qr', 'ean-13'],
     onCodeScanned: (codes) => {
+      close();
+      setIsScannerOpen(false);
       setcurrentCode(codes?.[0]?.value);
     },
   });
@@ -76,9 +78,11 @@ const ScannerModal = ({
           );
         } else {
           setIsScannerOpen(true);
+          close();
         }
       });
     } else {
+      close();
       setIsScannerOpen(true);
     }
   };
@@ -91,6 +95,9 @@ const ScannerModal = ({
         marque: getSupplyInfoQuery.data.product.brands,
       };
       onSuccess(supply);
+      close();
+      setIsScannerOpen(false);
+      setcurrentCode('');
     }
     setcurrentCode('');
   }, [getSupplyInfoQuery?.data]);

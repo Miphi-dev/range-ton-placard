@@ -22,10 +22,15 @@ const createKeywords = (sentence: string) => {
   }, [] as string[]);
 };
 
-function jaccardSimilarity(keywordsA: string[], keywordsB: string[]) {
+const jaccardSimilarity = (keywordsA: string[], keywordsB: string[]) => {
   const intersection = keywordsA.filter((item) => keywordsB.includes(item));
   const union = [...new Set([...keywordsA, ...keywordsB])];
   return intersection.length / union.length;
-}
+};
 
-export default { createKeywords, normalizeString, jaccardSimilarity };
+const getTenKeywords = (keywords: string[]) => {
+  const end = keywords.length <= 10 ? keywords.length - 1 : 9;
+  return keywords.slice(0, end);
+};
+
+export default { createKeywords, normalizeString, jaccardSimilarity, getTenKeywords };
