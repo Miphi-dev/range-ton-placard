@@ -8,6 +8,7 @@ import {
 import keywordsUtils from '@/utils/keywordsUtils';
 import KeywordsUtils from '@/utils/keywordsUtils';
 import { SpotDoc } from '@/services/schemas/spots';
+import collectionPaths from '@/services/collectionPaths';
 
 const createSupplyInSpot = async (payload: {
   spotId: string;
@@ -16,7 +17,7 @@ const createSupplyInSpot = async (payload: {
   try {
     const keywords = keywordsUtils.createKeywords(payload.data.name);
     const documentRef = await firestore()
-      .collection('supplies')
+      .collection(collectionPaths.suppliesPath)
       .add({
         ...payload.data,
         keywords,
@@ -24,7 +25,7 @@ const createSupplyInSpot = async (payload: {
       });
 
     const response = await firestore()
-      .collection('spots')
+      .collection(collectionPaths.spotsPath)
       .doc(payload.spotId)
       .update({
         supplies: firestore.FieldValue.arrayUnion(documentRef),
@@ -41,7 +42,7 @@ const getSimilarSupplies = async (name: Supply['name']) => {
 
   try {
     const response = await firestore()
-      .collection<SupplyDoc>('supplies')
+      .collection<SupplyDoc>(collectionPaths.suppliesPath)
       .where(
         'keywords',
         'array-contains-any',
@@ -57,7 +58,7 @@ const getSimilarSupplies = async (name: Supply['name']) => {
       ) {
         const data = doc.data();
         const spotSnapshot = await firestore()
-          .collection<SpotDoc>('spots')
+          .collection<SpotDoc>(collectionPaths.spotsPath)
           .doc(data.spotId)
           .get();
 
@@ -85,9 +86,12 @@ const deleteSupplyInSpot = async (payload: {
   supplyId: string;
 }) => {
   try {
-    await firestore().collection('supplies').doc(payload.supplyId).delete();
+    await firestore()
+      .collection(collectionPaths.suppliesPath)
+      .doc(payload.supplyId)
+      .delete();
     const response = await firestore()
-      .collection('spots')
+      .collection(collectionPaths.spotsPath)
       .doc(payload.spotId)
       .update({
         supplies: firestore.FieldValue.arrayRemove(payload.supplyId),
@@ -114,7 +118,9 @@ const searchSupplies = async (payload: {
   keyword: string;
 }) => {
   try {
-    let suppliesCollection = firestore().collection<SupplyDoc>('supplies');
+    let suppliesCollection = firestore().collection<SupplyDoc>(
+      collectionPaths.suppliesPath
+    );
 
     let suppliesQuery = null;
 
