@@ -40,24 +40,21 @@ const createSupplyInSpot = async (payload: {
 const getSimilarSupplies = async (name: Supply['name']) => {
   const keywords = keywordsUtils.createKeywords(name);
 
-  let similarKeywords = keywords;
-  if (keywords[keywords.length - 1].length <= 7) {
-    similarKeywords = [keywords[keywords.length - 1]];
-  } else {
-    // take the last 3 keywords
-    similarKeywords = keywords.slice(keywords.length - 3, keywords.length);
-  }
   try {
     const response = await firestore()
       .collection<SupplyDoc>(collectionPaths.suppliesPath)
-      .where('keywords', 'array-contains-any', similarKeywords)
+      .where(
+        'keywords',
+        'array-contains-any',
+        KeywordsUtils.getTenKeywords(keywords)
+      )
       .get();
 
     const similarSupplies: SupplyWithSpot[] = [];
 
     for (const doc of response.docs) {
       if (
-        KeywordsUtils.jaccardSimilarity(keywords, doc.data().keywords) >= 0.5
+        KeywordsUtils.jaccardSimilarity(keywords, doc.data().keywords) >= 0.3
       ) {
         const data = doc.data();
         const spotSnapshot = await firestore()
@@ -77,6 +74,7 @@ const getSimilarSupplies = async (name: Supply['name']) => {
         });
       }
     }
+    console.log(similarSupplies);
     return Promise.resolve(similarSupplies);
   } catch (e) {
     return Promise.reject(e);
@@ -133,8 +131,10 @@ const searchSupplies = async (payload: {
     if (payload.keyword !== '') {
       suppliesQuery = suppliesCollection.where(
         'keywords',
-        'array-contains',
-        payload.keyword
+        'array-contains-any',
+        KeywordsUtils.getTenKeywords(
+          KeywordsUtils.createKeywords(payload.keyword)
+        )
       );
     }
 

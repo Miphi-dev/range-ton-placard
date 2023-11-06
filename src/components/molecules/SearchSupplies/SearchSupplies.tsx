@@ -34,7 +34,7 @@ const SearchSupplies = ({ spotId, setValue }: Props) => {
     () => {
       return SuppliesService.searchSupplies({
         spotId: spotId,
-        keyword: keywordsUtils.normalizeString(debouncedSearch),
+        keyword: debouncedSearch,
       });
     }
   );
