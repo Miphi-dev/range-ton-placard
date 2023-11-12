@@ -132,9 +132,7 @@ const searchSupplies = async (payload: {
       suppliesQuery = suppliesCollection.where(
         'keywords',
         'array-contains-any',
-        KeywordsUtils.getTenKeywords(
-          KeywordsUtils.createKeywords(payload.keyword)
-        )
+        KeywordsUtils.normalizeString(payload.keyword).split(' ')
       );
     }
 
@@ -149,6 +147,20 @@ const searchSupplies = async (payload: {
         ...doc.data(),
         id: doc.id,
       });
+    });
+
+    // order by jaccard similarity
+    supplies.sort((a, b) => {
+      return (
+        KeywordsUtils.jaccardSimilarity(
+          KeywordsUtils.createKeywords(payload.keyword),
+          b.keywords
+        ) -
+        KeywordsUtils.jaccardSimilarity(
+            KeywordsUtils.createKeywords(payload.keyword),
+            a.keywords
+        )
+      );
     });
 
     return Promise.resolve(supplies);
