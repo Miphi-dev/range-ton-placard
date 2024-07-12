@@ -14,8 +14,8 @@ import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 // Services
 import authentication, {
-  LoginPayload,
-  loginPayloadSchema,
+  LoginOrRegisterPayload,
+  loginOrRegisterPayloadSchema,
 } from '@/services/AuthenticationService';
 import {ApplicationPublicScreenProps} from "types/navigation";
 
@@ -27,14 +27,14 @@ const Login = ({navigation}: ApplicationPublicScreenProps<'Login'>) => {
     control,
     handleSubmit,
     formState: { isValid },
-  } = useForm<LoginPayload>({
-    resolver: zodResolver(loginPayloadSchema),
+  } = useForm<LoginOrRegisterPayload>({
+    resolver: zodResolver(loginOrRegisterPayloadSchema),
     mode: 'onChange',
   });
 
   const loginMutation = useMutation(authentication.login);
 
-  const onSubmit = (data: LoginPayload) => {
+  const onSubmit = (data: LoginOrRegisterPayload) => {
     return loginMutation.mutate(data);
   };
 
@@ -153,6 +153,11 @@ const Login = ({navigation}: ApplicationPublicScreenProps<'Login'>) => {
             onPress={handleSubmit(onSubmit)}
             style={gutters.paddingHorizontal_32}
           />
+          <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+            <Text style={[fonts.text_white, gutters.marginTop_16]}>
+              Creer son compte
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
     </ScreenContainer>
