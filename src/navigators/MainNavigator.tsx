@@ -36,6 +36,7 @@ const MainNavigator = () => {
     config: {
       screens: {
         SpotDetails: 'spot/:id',
+        ResetPassword: 'resetPassword/:oobCode',
       },
     },
   };
