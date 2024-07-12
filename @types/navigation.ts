@@ -7,6 +7,7 @@ export type ApplicationPublicStackParamList = {
   ResetPassword: {
     oobCode?: string
   };
+  Register: undefined;
 };
 
 export type ApplicationPrivateStackParamList = {
