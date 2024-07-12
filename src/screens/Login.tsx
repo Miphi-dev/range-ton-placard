@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import { zodResolver } from '@hookform/resolvers/zod';
 // Components
 import LinearGradient from 'react-native-linear-gradient';
@@ -17,8 +17,9 @@ import authentication, {
   LoginPayload,
   loginPayloadSchema,
 } from '@/services/AuthenticationService';
+import {ApplicationPublicScreenProps} from "types/navigation";
 
-const Login = () => {
+const Login = ({navigation}: ApplicationPublicScreenProps<'Login'>) => {
   const { fonts, backgrounds, layout, gutters } = useTheme();
   const { t } = useTranslation(['login']);
 
@@ -131,6 +132,12 @@ const Login = () => {
             label={t('form.password.label')}
             secureTextEntry
           />
+
+          <TouchableOpacity onPress={() => navigation.navigate('ResetPassword')}>
+            <Text style={[fonts.text_white, gutters.marginTop_16]}>
+              mot de passe oublié
+            </Text>
+          </TouchableOpacity>
         </View>
         <View
           style={[

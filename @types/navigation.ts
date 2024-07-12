@@ -4,6 +4,9 @@ import { SupplyPayload } from '@/services/schemas/supplies';
 
 export type ApplicationPublicStackParamList = {
   Login: undefined;
+  ResetPassword: {
+    oobCode?: string
+  };
 };
 
 export type ApplicationPrivateStackParamList = {
